@@ -2,7 +2,7 @@
 This repository contains our frontend code for pet product web shop.
 
 ## Stack
-* React (+ ReactRouter, tailwindcSS and DaisyUI)
+* React (+ ReactRouter, tailwindcss and DaisyUI)
 * Vite
 * Typescript
 
