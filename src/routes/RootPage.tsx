@@ -1,4 +1,5 @@
 import { Navigate, Outlet, redirect } from "react-router-dom"
+import Navbar from "../components/Navbar";
 
 export const loader = async () => {
     console.log("Loader entered")
@@ -11,6 +12,7 @@ export default function RootPage() {
     return (
         <div>
             <Navigate to={"/products"} />
+            <Navbar />
             <Outlet />
         </div>
         
