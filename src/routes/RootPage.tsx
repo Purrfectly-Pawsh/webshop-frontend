@@ -12,7 +12,7 @@ export const loader = async () => {
 
 export default function RootPage() {
     return (
-        <div className="flex flex-col min-h-screen">
+        <div className="flex flex-col h-screen">
             <Navigate to={"/products"} />
             <Navbar />
             <CategoryMenu />

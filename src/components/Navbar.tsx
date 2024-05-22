@@ -1,8 +1,8 @@
 export default function Navbar() {
     return (
-        <div className="navbar bg-primary h-45">
+        <div className="navbar bg-primary h-45 min-h-32">
             <div className="hidden sm:block flex-1">
-                <img src="public/big_logo.png" className="h-36" />
+                <img src="public/big_logo.png" className="h-32" />
             </div>
             <div className="rounded-md w-1/3 mx-auto">
                 <div className="w-full flex input input-bordered items-center justify-between w-auto rounded-3xl">
