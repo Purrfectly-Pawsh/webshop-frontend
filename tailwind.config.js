@@ -16,7 +16,7 @@ export default {
 				perrfectlypawsh: {
 					"primary": "#FED363",
 					"secondary": "#FFE7AA",
-					"background-color": "#FFF4D6"
+					"base-100": "#FFF4D6"
 				},
 			},
 		],
