@@ -1,5 +1,7 @@
 export default function ProductsPage() {
     return (
-        <p>Products</p>
+        <div className="flex-grow overflow-y-auto">
+            <p>Products</p>
+        </div>
     )
 }

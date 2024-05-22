@@ -1,6 +1,7 @@
 import { Navigate, Outlet, redirect } from "react-router-dom"
 import Navbar from "../components/Navbar";
 import CategoryMenu from "../components/CategoryMenu";
+import Footer from "../components/Footer";
 
 export const loader = async () => {
     console.log("Loader entered")
@@ -11,11 +12,12 @@ export const loader = async () => {
 
 export default function RootPage() {
     return (
-        <div>
+        <div className="flex flex-col min-h-screen">
             <Navigate to={"/products"} />
             <Navbar />
             <CategoryMenu />
             <Outlet />
+            <Footer />
         </div>
         
     )
