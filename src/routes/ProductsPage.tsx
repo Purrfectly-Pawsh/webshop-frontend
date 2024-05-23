@@ -43,7 +43,7 @@ export default function ProductsPage() {
 
 	return (
 		<div className="overflow-auto">
-			<div className="grid grid-cols-4 gap-x-0 gap-y-16">
+			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16">
 				{products.map((product, index) => (
 					<div
 						className={`card w-96 mx-auto bg-white shadow-xl rounded-2xl ${
@@ -61,7 +61,7 @@ export default function ProductsPage() {
 									alt="Shoes"
 								/>
 							</figure>
-							<div className="card-body bg-primary rounded-b-2xl">
+							<div className="card-body bg-primary rounded-b-2xl h-60">
 								<h2 className="card-title">{product.name}</h2>
 								<p>{product.producer}</p>
 								<div className="card-actions justify-end">

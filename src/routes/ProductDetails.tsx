@@ -18,7 +18,7 @@ export default function ProductsPage() {
 	const productDetails = useLoaderData() as Product;
 
 	return (
-		<div className="bg-primary m-4 rounded-2xl m-20 border-4 border-gray-400">
+		<div className="bg-primary rounded-2xl m-20 border-4 border-gray-400">
 			<div className="m-4 bg-secondary rounded-2xl border-2 border-gray-400">
 				<h1 className="text-6xl font-bold m-4">{productDetails.name}</h1>
 			</div>
