@@ -15,7 +15,7 @@ export const productDetailsPageLoader = async ({
 	})
 		.then((response) => {
 			if (response.ok) {
-				return response.json() as Promise<Product[]>;
+				return response.json() as Promise<Product>;
 			}
 			throw new Error("Network response was not ok!");
 		})
@@ -23,8 +23,8 @@ export const productDetailsPageLoader = async ({
 			return data;
 		})
 		.catch((error) => {
-			console.error("Fetching [GET PRODUCTS] failed:\n", error);
-			return [];
+			console.error(`Fetching [GET PRODUCT ${params.id}] failed:\n`, error);
+			return {};
 		});
 
 	return response;
