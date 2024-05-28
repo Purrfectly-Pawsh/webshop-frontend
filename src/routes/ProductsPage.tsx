@@ -1,12 +1,11 @@
-import { type LoaderFunctionArgs, useLoaderData, useSearchParams } from "react-router-dom";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import type { Product } from "../utils/types";
 import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
-import { useEffect, useState } from "react";
 
 export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
 	const keyword: string = url.searchParams.get("keyword") || "";
-	const fetchURL: string = keyword === "" ? GETProductsURL : GETProductsByKeywordURL + keyword 
+	const fetchURL: string = keyword === "" ? GETProductsURL : GETProductsByKeywordURL + keyword
 
 	const response = fetch(fetchURL, {
 		method: "GET",
@@ -35,28 +34,14 @@ export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
-	const [searchParams, _] = useSearchParams();
-	console.log(searchParams);
-
-	// This is only for styling purposes: we need to keep track of the index of the first element that is in the last row of products.
-	// This is because from this index onwards (including the index), the last card elements must have a bottom margin.
-	const [lastProductRowIndex, setIndex] = useState<number>(0);
-
-	useEffect(() => {
-		const length = products.length;
-		const rest = length % 4;
-		setIndex(rest === 0 ? length - 4 : length - rest);
-	}, [products]);
 
 	return (
 		<div className="overflow-auto flex-grow">
-			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16">
-				{products.map((product, index) => (
+			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16 mt-8 mb-8">
+				{products.map((product) => (
 					<div
 						key={product.id}
-						className={`card w-96 mx-auto bg-white shadow-xl rounded-2xl ${
-							index < 4 ? "mt-8" : ""
-						} ${index >= lastProductRowIndex ? "mb-8" : ""}`}
+						className={"card w-96 mx-auto bg-white shadow-xl rounded-2xl"}
 					>
 						<a
 							href={`/product/${product.id}`}
