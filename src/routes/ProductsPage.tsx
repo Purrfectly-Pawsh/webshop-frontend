@@ -1,5 +1,5 @@
-import { useLoaderData } from "react-router-dom";
-import { Product } from "../utils/types";
+import { useLoaderData, useSearchParams } from "react-router-dom";
+import type { Product } from "../utils/types";
 import { GETProductsURL } from "../utils/urls";
 import { useEffect, useState } from "react";
 
@@ -31,6 +31,9 @@ export const productsPageLoader = async () => {
 
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
+	const [searchParams, setSearchParams] = useSearchParams();
+	console.log(searchParams);
+
 	// This is only for styling purposes: we need to keep track of the index of the first element that is in the last row of products.
 	// This is because from this index onwards (including the index), the last card elements must have a bottom margin.
 	const [lastProductRowIndex, setIndex] = useState<number>(0);
@@ -46,6 +49,7 @@ export default function ProductsPage() {
 			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16">
 				{products.map((product, index) => (
 					<div
+						key={product.id}
 						className={`card w-96 mx-auto bg-white shadow-xl rounded-2xl ${
 							index < 4 ? "mt-8" : ""
 						} ${index >= lastProductRowIndex ? "mb-8" : ""}`}
@@ -67,7 +71,7 @@ export default function ProductsPage() {
 								<div className="card-actions justify-end">
 									<div className="flex items-center justify-between w-full">
 										<h2 className="font-bold text-xl">{product.price} $</h2>
-										<button className="btn btn-primary bg-secondary">
+										<button type="button" className="btn btn-primary bg-secondary">
 											Buy
 										</button>
 									</div>

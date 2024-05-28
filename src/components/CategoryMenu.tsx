@@ -1,10 +1,10 @@
 export default function CategoryMenu() {
     return (
         <ul className="menu menu-horizontal bg-secondary w-full justify-evenly items-cente p-1">
-            <li><a>Cats</a></li>
-            <li><a>Dogs</a></li>
-            <li><a>Birds</a></li>
-            <li><a>Others</a></li>
+            <li><button type="button">Cat</button></li>
+            <li><button type="button">Dogs</button></li>
+            <li><button type="button">Birds</button></li>
+            <li><button type="button">Others</button></li>
         </ul>
     )
 }
