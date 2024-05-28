@@ -14,7 +14,7 @@ const router = createBrowserRouter([
 		element: <RootPage />,
 		children: [
 			{
-				path: "products",
+				path: "products/search?/",
 				loader: productsPageLoader,
 				element: <ProductsPage />,
 			},
@@ -27,8 +27,14 @@ const router = createBrowserRouter([
 	},
 ]);
 
-ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<RouterProvider router={router} />
-	</React.StrictMode>,
-);
+const root: HTMLElement | null = document.getElementById("root")
+if(root !== null) {
+	ReactDOM.createRoot(root).render(
+		<React.StrictMode>
+			<RouterProvider router={router} />
+		</React.StrictMode>,
+	);
+} else {
+	console.error("FATAL ERROR: Couldn't load page!")
+}
+

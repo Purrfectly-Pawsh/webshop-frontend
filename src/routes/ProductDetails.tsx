@@ -1,10 +1,10 @@
-import { useLoaderData } from "react-router-dom";
-import { Product } from "../utils/types";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import type { Product } from "../utils/types";
 import { GETProductURL } from "../utils/urls";
 
 export const productDetailsPageLoader = async ({
 	params,
-}: { params: { id: string } }) => {
+}: LoaderFunctionArgs) => {
 	const response = fetch(GETProductURL + params.id, {
 		method: "GET",
 		mode: "cors", // no-cors, *cors, same-origin
@@ -44,6 +44,7 @@ export default function ProductsPage() {
           bg-secondary flex items-center justify-center border-2 border-gray-400 max-h-[700px]"
 				>
 					<img
+						alt={product.name}
 						src={product.imageUrl}
 						className="rounded-2xl py-10 px-5 max-h-full object-contain"
 					/>
@@ -55,12 +56,12 @@ export default function ProductsPage() {
 						<p>{product.description}</p>
 					</div>
 					<div className="flex flex-col my-10 space-y-4">
-						<button className="btn bg-btn">
-							<img src="/basket.svg" className="w-10 h-10" />
+						<button type="button" className="btn bg-btn">
+							<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
 							Add to basket
 						</button>
-						<button className="btn bg-btn">
-							<img src="/heart-svgrepo-com.svg" className="w-10 h-10" />
+						<button type="button" className="btn bg-btn">
+							<img alt="Heart" src="/heart-svgrepo-com.svg" className="w-10 h-10" />
 							Remember
 						</button>
 					</div>

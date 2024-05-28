@@ -1,10 +1,13 @@
-import { useLoaderData } from "react-router-dom";
-import { Product } from "../utils/types";
-import { GETProductsURL } from "../utils/urls";
-import { useEffect, useState } from "react";
+import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import type { Product } from "../utils/types";
+import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 
-export const productsPageLoader = async () => {
-	const response = fetch(GETProductsURL, {
+export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
+	const url: URL = new URL(request.url);
+	const keyword: string = url.searchParams.get("keyword") || "";
+	const fetchURL: string = keyword === "" ? GETProductsURL : GETProductsByKeywordURL + keyword
+
+	const response = fetch(fetchURL, {
 		method: "GET",
 		mode: "cors", // no-cors, *cors, same-origin
 		headers: {
@@ -31,24 +34,14 @@ export const productsPageLoader = async () => {
 
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
-	// This is only for styling purposes: we need to keep track of the index of the first element that is in the last row of products.
-	// This is because from this index onwards (including the index), the last card elements must have a bottom margin.
-	const [lastProductRowIndex, setIndex] = useState<number>(0);
-
-	useEffect(() => {
-		const length = products.length;
-		const rest = length % 4;
-		setIndex(rest === 0 ? length - 4 : length - rest);
-	}, [products]);
 
 	return (
-		<div className="overflow-auto">
-			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16">
-				{products.map((product, index) => (
+		<div className="overflow-auto flex-grow">
+			<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16 mt-8 mb-8">
+				{products.map((product) => (
 					<div
-						className={`card w-96 mx-auto bg-white shadow-xl rounded-2xl ${
-							index < 4 ? "mt-8" : ""
-						} ${index >= lastProductRowIndex ? "mb-8" : ""}`}
+						key={product.id}
+						className={"card w-96 mx-auto bg-white shadow-xl rounded-2xl"}
 					>
 						<a
 							href={`/product/${product.id}`}
@@ -67,7 +60,7 @@ export default function ProductsPage() {
 								<div className="card-actions justify-end">
 									<div className="flex items-center justify-between w-full">
 										<h2 className="font-bold text-xl">{product.price} $</h2>
-										<button className="btn btn-primary bg-secondary">
+										<button type="button" className="btn btn-primary bg-secondary">
 											Buy
 										</button>
 									</div>
