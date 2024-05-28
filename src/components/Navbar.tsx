@@ -1,12 +1,18 @@
+import { useNavigate } from "react-router-dom";
+
 export default function Navbar() {
+	const navigate = useNavigate();
+
 	return (
-		<div className="navbar bg-primary h-45 min-h-32">
+		<div className="navbar bg-primary max-h-36 min-h-36">
 			<div className="hidden sm:block flex-1">
 				<img alt="Logo" src="/big_logo.png" className="h-32" />
 			</div>
 			<div className="rounded-md w-1/3 mx-auto">
-				<div className="flex input input-bordered items-center justify-between w-auto rounded-3xl">
-					<input type="text" placeholder="Search..." className="w-full pl-2" />
+				<div className="flex flex-grow input input-bordered items-center justify-between w-auto rounded-3xl">
+					<input type="text" placeholder="Search..." className="w-full pl-2" onChange={(e) =>
+						navigate(e.target.value === "" ? "/products" : `/products?keyword=${e.target.value}`)
+					} />
 					<svg
 						role="img"
 						aria-label="Search Icon"
