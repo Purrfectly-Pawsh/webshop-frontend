@@ -5,7 +5,8 @@ import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
 	const keyword: string = url.searchParams.get("keyword") || "";
-	const fetchURL: string = keyword === "" ? GETProductsURL : GETProductsByKeywordURL + keyword
+	const fetchURL: string =
+		keyword === "" ? GETProductsURL : GETProductsByKeywordURL + keyword;
 
 	const response = fetch(fetchURL, {
 		method: "GET",
@@ -59,8 +60,11 @@ export default function ProductsPage() {
 								<p>{product.producer}</p>
 								<div className="card-actions justify-end">
 									<div className="flex items-center justify-between w-full">
-										<h2 className="font-bold text-xl">{product.price} $</h2>
-										<button type="button" className="btn btn-primary bg-secondary">
+										<h2 className="font-bold text-xl">$ {product.price}$</h2>
+										<button
+											type="button"
+											className="btn btn-primary bg-secondary"
+										>
 											Buy
 										</button>
 									</div>

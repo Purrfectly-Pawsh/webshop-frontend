@@ -49,19 +49,23 @@ export default function ProductsPage() {
 						className="rounded-2xl py-10 px-5 max-h-full object-contain"
 					/>
 				</div>
-				<div className="md:w-1/3 flex-col bg-secondary mx-6 rounded-2xl flex items-center border-2 border-gray-400 h-max">
+				<div className=" md:w-1/3 flex-col bg-secondary mx-6 rounded-2xl flex items-center border-2 border-gray-400 h-max">
 					<div className="p-4 space-y-6">
-						<p className="text-2xl font-bold ">${product.price}</p>
+						<p className="text-2xl font-bold ">$ {product.price}</p>
 						<h2 className="text-2xl font-medium">{product.producer}</h2>
 						<p>{product.description}</p>
 					</div>
 					<div className="flex flex-col my-10 space-y-4">
-						<button type="button" className="btn bg-btn">
+						<button type="button" className="btn bg-btnBlue">
 							<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
 							Add to basket
 						</button>
-						<button type="button" className="btn bg-btn">
-							<img alt="Heart" src="/heart-svgrepo-com.svg" className="w-10 h-10" />
+						<button type="button" className="btn bg-btnBlue">
+							<img
+								alt="Heart"
+								src="/heart-svgrepo-com.svg"
+								className="w-10 h-10"
+							/>
 							Remember
 						</button>
 					</div>

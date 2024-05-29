@@ -1,9 +1,23 @@
 export interface Product {
-    id: string;
-    name: string;
-    description: string;
-    price: number;
-    imageUrl: string;
-    category: string;
-    producer: string;
+	id: string;
+	name: string;
+	description: string;
+	price: number;
+	imageUrl: string;
+	category: string;
+	producer: string;
 }
+
+export interface Basket {
+	basketItems: BasketItem[];
+	totalPrice: number;
+}
+
+export interface BasketItem {
+	itemId: string;
+	name: string;
+	price: number;
+	quantity: number;
+	image: string;
+}
+
