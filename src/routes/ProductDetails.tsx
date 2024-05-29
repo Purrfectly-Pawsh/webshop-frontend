@@ -30,7 +30,7 @@ export const productDetailsPageLoader = async ({
 	return response;
 };
 
-export default function ProductsPage() {
+export default function ProductDetailsPage() {
 	const product = useLoaderData() as Product;
 
 	return (

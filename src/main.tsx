@@ -4,9 +4,7 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProductsPage, { productsPageLoader } from "./routes/ProductsPage";
 import RootPage from "./routes/RootPage";
-import ProductDetails, {
-	productDetailsPageLoader,
-} from "./routes/ProductDetails";
+import ProductDetailsPage, { productDetailsPageLoader } from "./routes/ProductDetails";
 
 const router = createBrowserRouter([
 	{
@@ -20,7 +18,7 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "product/:id",
-				element: <ProductDetails />,
+				element: <ProductDetailsPage />,
 				loader: productDetailsPageLoader,
 			},
 		],
