@@ -34,32 +34,35 @@ export const productDetailsPageLoader = async ({
 
 export default function ProductDetailsPage() {
 	const product = useLoaderData() as Product;
-	const [reviews, setReviews] = useState<ReviewType[]>([])
+	const [reviews, setReviews] = useState<ReviewType[]>([]);
 
 	useEffect(() => {
-		const fetchReviews = async () => fetch(GETReviewsForProductURL(product.id), {
-			method: "GET",
-			mode: "cors", // no-cors
-			headers: {
-				"Content-Type": "application/json",
-			},
-		})
-			.then((response) => {
-				if (response.ok) {
-					return response.json() as Promise<ReviewType[]>;
-				}
-				throw new Error("Network response was not ok!");
+		const fetchReviews = async () =>
+			fetch(GETReviewsForProductURL(product.id), {
+				method: "GET",
+				mode: "cors", // no-cors
+				headers: {
+					"Content-Type": "application/json",
+				},
 			})
-			.then((data) => {
-				setReviews(data);
-			})
-			.catch((error) => {
-				console.error(`Fetching [GET REVIEWS OF PRODUCT ${product.id}] failed:\n`, error);
-				setReviews([])
-			});
+				.then((response) => {
+					if (response.ok) {
+						return response.json() as Promise<ReviewType[]>;
+					}
+					throw new Error("Network response was not ok!");
+				})
+				.then((data) => {
+					setReviews(data);
+				})
+				.catch((error) => {
+					console.error(
+						`Fetching [GET REVIEWS OF PRODUCT ${product.id}] failed:\n`,
+						error,
+					);
+					setReviews([]);
+				});
 		fetchReviews();
 	}, [product]);
-
 
 	return (
 		<div className="bg-primary rounded-2xl border-4 border-gray-400 w-4/5 mx-auto m-8">

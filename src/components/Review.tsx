@@ -6,9 +6,8 @@ interface ReviewProps {
 }
 
 export default function ReviewComponent({ review }: ReviewProps) {
-
 	function formatDate(date: string): string {
-        const newDate: Date = new Date(date);
+		const newDate: Date = new Date(date);
 		const options: Intl.DateTimeFormatOptions = {};
 		options.month = "long";
 		options.day = "2-digit";
@@ -16,7 +15,7 @@ export default function ReviewComponent({ review }: ReviewProps) {
 		options.hour = "2-digit";
 		options.minute = "2-digit";
 		options.hour12 = true;
-        return new Intl.DateTimeFormat("en-US", options).format(newDate);
+		return new Intl.DateTimeFormat("en-US", options).format(newDate);
 	}
 
 	return (
@@ -24,7 +23,9 @@ export default function ReviewComponent({ review }: ReviewProps) {
 			<div className="mx-2">
 				<div className="flex justify-between items-center">
 					<div>
-						<h1 className="text-xl font-bold">{review.author} - {review.title}</h1>
+						<h1 className="text-xl font-bold">
+							{review.author} - {review.title}
+						</h1>
 						<p>{review.content}</p>
 					</div>
 					<div className="text-right">

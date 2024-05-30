@@ -10,9 +10,18 @@ export default function Navbar() {
 			</div>
 			<div className="rounded-md w-1/3 mx-auto">
 				<div className="flex flex-grow input input-bordered items-center justify-between w-auto rounded-3xl">
-					<input type="text" placeholder="Search..." className="w-full pl-2" onChange={(e) =>
-						navigate(e.target.value === "" ? "/products" : `/products?keyword=${e.target.value}`)
-					} />
+					<input
+						type="text"
+						placeholder="Search..."
+						className="w-full pl-2"
+						onChange={(e) =>
+							navigate(
+								e.target.value === ""
+									? "/products"
+									: `/products?keyword=${e.target.value}`,
+							)
+						}
+					/>
 					<svg
 						role="img"
 						aria-label="Search Icon"
@@ -49,10 +58,13 @@ export default function Navbar() {
 					role="button"
 					className="btn btn-ghost btn-circle m-6"
 				>
-					<img aria-label="Basket Icon" src="/basket.svg" className="scale-125" />
+					<img
+						aria-label="Basket Icon"
+						src="/basket.svg"
+						className="scale-125"
+					/>
 				</div>
 			</div>
 		</div>
 	);
 }
-

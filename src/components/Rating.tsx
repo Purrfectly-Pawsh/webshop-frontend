@@ -9,7 +9,7 @@ export default function Rating({ rating }: RatingProps) {
 		<div className="rating">
 			{ratings.map((i) => (
 				<input
-                    key={i}
+					key={i}
 					type="radio"
 					className="mask mask-star"
 					readOnly
