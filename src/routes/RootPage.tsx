@@ -8,7 +8,9 @@ export default function RootPage() {
 		<div className="flex flex-col h-screen">
 			<Navbar />
 			<CategoryMenu />
-			<Outlet />
+			<div className="overflow-auto flex-grow">
+				<Outlet />
+			</div>
 			<Footer />
 		</div>
 	);
