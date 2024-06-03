@@ -1,10 +1,9 @@
 import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { Basket, BasketItem } from "../utils/types";
-import { useSession } from "../context/SessionContext";
+import { SessionContext } from "../context/SessionContext";
+import { useContext } from "react";
 
 export const basketPageLoader = async ({ params }: LoaderFunctionArgs) => {
-	const { basketId } = useSession();
-
 	return {
 		basketItems: [
 			{
@@ -64,7 +63,7 @@ export default function BasketPage() {
 							<div>
 								<div className="px-4 space-y-6 flex flex-col items-center">
 									<h1 className="text-2xl font-semibold">
-										{basketItem.price}€
+										$ {basketItem.price}
 									</h1>
 									<button className="btn bg-btnRed text-xl">Remove</button>
 								</div>
@@ -87,8 +86,8 @@ export default function BasketPage() {
 						<span>Total:</span>
 						<span>$ {(basket.totalPrice - 10.0 + 4.99).toFixed(2)}</span>
 					</div>
-					<div className="flex justify-center">
-						<button className="btn bg-btnBlue w-1/4 text-2xl">Checkout</button>
+					<div className="flex justify-center py-10">
+						<button className="btn bg-btnBlue text-2xl px-4">Checkout</button>
 					</div>
 				</div>
 			</div>

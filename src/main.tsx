@@ -8,7 +8,7 @@ import ProductDetails, {
 	productDetailsPageLoader,
 } from "./routes/ProductDetails";
 import BasketPage, { basketPageLoader } from "./routes/BasketPage";
-import { SessionProvider } from "./context/SessionContext";
+import { SessionContextProvider } from "./context/SessionContext";
 
 const router = createBrowserRouter([
 	{
@@ -26,7 +26,7 @@ const router = createBrowserRouter([
 				loader: productDetailsPageLoader,
 			},
 			{
-				path: "basket/:id",
+				path: "basket",
 				element: <BasketPage />,
 				loader: basketPageLoader,
 			},
@@ -38,9 +38,9 @@ const root: HTMLElement | null = document.getElementById("root");
 if (root !== null) {
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
-			<SessionProvider>
+			<SessionContextProvider>
 				<RouterProvider router={router} />
-			</SessionProvider>
+			</SessionContextProvider>
 		</React.StrictMode>,
 	);
 } else {

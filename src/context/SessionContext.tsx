@@ -1,45 +1,41 @@
-import {
-	ReactNode,
-	createContext,
-	useContext,
-	useEffect,
-	useState,
-} from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface SessionContextType {
-	basketId: string;
+	getBasketId: () => string;
 }
 
-interface SessionProviderProps {
+export const SessionContext = createContext<SessionContextType>({
+	getBasketId: () => "",
+});
+
+interface SessionContextProviderProps {
 	children: ReactNode;
 }
 
-const SessionContext = createContext<SessionContextType>({
-	basketId: "",
-});
-
-export const SessionProvider = ({ children }: SessionProviderProps) => {
+export const SessionContextProvider = ({
+	children,
+}: SessionContextProviderProps) => {
 	const [basketId, setBasketId] = useState<string>(() => {
 		const storedBasketId = localStorage.getItem("basketId");
-		return storedBasketId || uuidv4();
+		return storedBasketId || "";
 	});
 
 	useEffect(() => {
-		localStorage.setItem("basketId", basketId);
+		if (!basketId) {
+			const newBasketId = uuidv4();
+			localStorage.setItem("basketId", newBasketId);
+			setBasketId(newBasketId);
+		}
 	}, [basketId]);
 
+	const getBasketId = (): string => {
+		return basketId;
+	};
+
 	return (
-		<SessionContext.Provider value={{ basketId }}>
+		<SessionContext.Provider value={{ getBasketId }}>
 			{children}
 		</SessionContext.Provider>
 	);
-};
-
-export const useSession = (): SessionContextType => {
-	const context = useContext(SessionContext);
-	if (!context) {
-		throw new Error("useSession hook has to be used in a SessionProvider");
-	}
-	return context;
 };

@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import { basketPageLoader } from "../routes/BasketPage";
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -10,9 +11,18 @@ export default function Navbar() {
 			</div>
 			<div className="rounded-md w-1/3 mx-auto">
 				<div className="flex flex-grow input input-bordered items-center justify-between w-auto rounded-3xl">
-					<input type="text" placeholder="Search..." className="w-full pl-2" onChange={(e) =>
-						navigate(e.target.value === "" ? "/products" : `/products?keyword=${e.target.value}`)
-					} />
+					<input
+						type="text"
+						placeholder="Search..."
+						className="w-full pl-2"
+						onChange={(e) =>
+							navigate(
+								e.target.value === ""
+									? "/products"
+									: `/products?keyword=${e.target.value}`,
+							)
+						}
+					/>
 					<svg
 						role="img"
 						aria-label="Search Icon"
@@ -49,10 +59,15 @@ export default function Navbar() {
 					role="button"
 					className="btn btn-ghost btn-circle m-6"
 				>
-					<img aria-label="Basket Icon" src="/basket.svg" className="scale-125" />
+					<a href="/basket">
+						<img
+							aria-label="Basket Icon"
+							src="/basket.svg"
+							className="scale-125"
+						/>
+					</a>
 				</div>
 			</div>
 		</div>
 	);
 }
-
