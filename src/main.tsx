@@ -8,6 +8,7 @@ import ProductDetails, {
 	productDetailsPageLoader,
 } from "./routes/ProductDetails";
 import BasketPage, { basketPageLoader } from "./routes/BasketPage";
+import { SessionProvider } from "./context/SessionContext";
 
 const router = createBrowserRouter([
 	{
@@ -37,7 +38,9 @@ const root: HTMLElement | null = document.getElementById("root");
 if (root !== null) {
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
-			<RouterProvider router={router} />
+			<SessionProvider>
+				<RouterProvider router={router} />
+			</SessionProvider>
 		</React.StrictMode>,
 	);
 } else {

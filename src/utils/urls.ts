@@ -1,6 +1,5 @@
-const apiVersion = import.meta.env.VITE_PRODUCT_SERVICE_API_VERSION;
 const baseURL = import.meta.env.VITE_PRODUCT_SERVICE_BASE_URL;
 
-export const GETProductsURL = `${baseURL}/${apiVersion}/products`;
-export const GETProductURL = `${baseURL}/${apiVersion}/products/`;
-export const GETProductsByKeywordURL = `${baseURL}/${apiVersion}/products/search?keyword=`;
+export const GETProductsURL = `${baseURL}/products`;
+export const GETProductURL = `${baseURL}/products/`;
+export const GETProductsByKeywordURL = `${baseURL}/products/search?keyword=`;

@@ -1,7 +1,10 @@
 import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import { Basket, BasketItem } from "../utils/types";
+import { useSession } from "../context/SessionContext";
 
 export const basketPageLoader = async ({ params }: LoaderFunctionArgs) => {
+	const { basketId } = useSession();
+
 	return {
 		basketItems: [
 			{
