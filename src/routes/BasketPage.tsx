@@ -1,10 +1,7 @@
-import { LoaderFunctionArgs, useLoaderData } from "react-router-dom";
-import { Basket, BasketItem } from "../utils/types";
-import { SessionContext } from "../context/SessionContext";
-import { useContext } from "react";
+import { BasketItem } from "../utils/types";
 
-export const basketPageLoader = async ({ params }: LoaderFunctionArgs) => {
-	return {
+export default function BasketPage() {
+	const basket = {
 		basketItems: [
 			{
 				itemId: "12345",
@@ -30,10 +27,6 @@ export const basketPageLoader = async ({ params }: LoaderFunctionArgs) => {
 		],
 		totalPrice: 67.96,
 	};
-};
-
-export default function BasketPage() {
-	const basket = useLoaderData() as Basket;
 	return (
 		<div className="bg-primary rounded-2xl m-40 border-4 border-gray-400 p-10">
 			<div className="flex flex-wrap md:flex-nowrap bg-primary w-full pb-4 items-start md:space-x-8">

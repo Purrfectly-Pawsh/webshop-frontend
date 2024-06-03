@@ -7,7 +7,7 @@ import RootPage from "./routes/RootPage";
 import ProductDetails, {
 	productDetailsPageLoader,
 } from "./routes/ProductDetails";
-import BasketPage, { basketPageLoader } from "./routes/BasketPage";
+import BasketPage from "./routes/BasketPage";
 import { SessionContextProvider } from "./context/SessionContext";
 
 const router = createBrowserRouter([
@@ -28,7 +28,6 @@ const router = createBrowserRouter([
 			{
 				path: "basket",
 				element: <BasketPage />,
-				loader: basketPageLoader,
 			},
 		],
 	},
