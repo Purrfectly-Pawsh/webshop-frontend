@@ -47,30 +47,6 @@ export default function ProductsPage() {
 						href={`/product/${product.id}`}
 						className="block hover:shadow-lg transition-shadow duration-300 rounded-b-2xl"
 					>
-						<a
-							href={`/product/${product.id}`}
-							className="block hover:shadow-lg transition-shadow duration-300 rounded-b-2xl"
-						>
-							<figure className="h-60 overflow-hidden m-4">
-								<img
-									src={product.imageUrl}
-									className="max-w-full max-h-full"
-									alt="Shoes"
-								/>
-							</figure>
-							<div className="card-body bg-primary rounded-b-2xl h-60">
-								<h2 className="card-title">{product.name}</h2>
-								<p>{product.producer}</p>
-								<div className="card-actions justify-end">
-									<div className="flex items-center justify-between w-full">
-										<h2 className="font-bold text-xl">$ {product.price}$</h2>
-										<button
-											type="button"
-											className="btn btn-primary bg-secondary"
-										>
-											Buy
-										</button>
-									</div>
 						<figure className="h-60 overflow-hidden m-4">
 							<img
 								src={product.imageUrl}

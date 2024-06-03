@@ -4,11 +4,11 @@ import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import ProductsPage, { productsPageLoader } from "./routes/ProductsPage";
 import RootPage from "./routes/RootPage";
-import ProductDetailsPage, {
-	productDetailsPageLoader,
-} from "./routes/ProductDetails";
 import BasketPage from "./routes/BasketPage";
 import { SessionContextProvider } from "./context/SessionContext";
+import ProductDetailsPage, {
+	productDetailsPageLoader,
+} from "./routes/ProductDetailsPage";
 
 const router = createBrowserRouter([
 	{
