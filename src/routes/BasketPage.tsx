@@ -1,6 +1,11 @@
+import { useContext, useEffect, useState } from "react";
 import { BasketItem } from "../utils/types";
+import { SessionContext } from "../context/SessionContext";
 
 export default function BasketPage() {
+	const { getBasketId } = useContext(SessionContext);
+	const [basketItems, setBasketItems] = useState<BasketItem[]>([]);
+
 	const basket = {
 		basketItems: [
 			{
@@ -45,7 +50,7 @@ export default function BasketPage() {
 								<h2 className="text-lg font-bold">{basketItem.name}</h2>
 								<p className="text-sm">Amount: {basketItem.quantity}</p>
 
-								<select className="select select-bordered mr-4">
+								<select className="select rounded-2xl border-black">
 									{[...Array(10).keys()].map((num) => (
 										<option key={num} value={num + 1}>
 											{num + 1}
