@@ -1,5 +1,4 @@
 import { useNavigate } from "react-router-dom";
-import { basketPageLoader } from "../routes/BasketPage";
 
 export default function Navbar() {
 	const navigate = useNavigate();

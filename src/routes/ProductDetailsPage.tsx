@@ -93,11 +93,11 @@ export default function ProductDetailsPage() {
 							<p>{product.description}</p>
 						</div>
 						<div className="flex flex-col my-10 space-y-4">
-							<button type="button" className="btn bg-btn">
+							<button type="button" className="btn bg-btnBlue">
 								<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
 								Add to basket
 							</button>
-							<button type="button" className="btn bg-btn">
+							<button type="button" className="btn bg-btnBlue">
 								<img
 									alt="Heart"
 									src="/heart-svgrepo-com.svg"

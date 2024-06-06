@@ -14,11 +14,11 @@ export interface Basket {
 }
 
 export interface BasketItem {
-	itemId: string;
+	basketItemId: string;
 	name: string;
-	price: number;
+	unitPrice: number;
 	quantity: number;
-	image: string;
+	imageUrl: string;
 }
 
 export interface Review {
