@@ -7,3 +7,5 @@ export const GETReviewsForProductURL = (productId: string) =>
 	`${baseURL}/products/${productId}/reviews`;
 export const GETBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
+export const POSTProductToBasketURL = (basketId: string) =>
+	`${baseURL}/baskets/${basketId}`;

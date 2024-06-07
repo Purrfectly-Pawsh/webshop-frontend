@@ -1,6 +1,9 @@
 import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import type { Product } from "../utils/types";
 import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
+import { useContext } from "react";
+import { SessionContext } from "../context/SessionContext";
+import { postItemToBasket } from "../utils/api";
 
 export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
@@ -36,6 +39,9 @@ export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
 
+	const { getBasketId } = useContext(SessionContext);
+	const basketId = getBasketId();
+
 	return (
 		<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16 mt-8 mb-8">
 			{products.map((product) => (
@@ -54,22 +60,23 @@ export default function ProductsPage() {
 								alt="Shoes"
 							/>
 						</figure>
-						<div className="card-body bg-primary rounded-b-2xl h-60">
-							<h2 className="card-title">{product.name}</h2>
-							<p>{product.producer}</p>
-							<div className="card-actions justify-end">
-								<div className="flex items-center justify-between w-full">
-									<h2 className="font-bold text-xl">{product.price} $</h2>
-									<button
-										type="button"
-										className="btn btn-primary bg-secondary"
-									>
-										Buy
-									</button>
-								</div>
+					</a>
+					<div className="card-body bg-primary rounded-b-2xl h-60">
+						<h2 className="card-title">{product.name}</h2>
+						<p>{product.producer}</p>
+						<div className="card-actions justify-end">
+							<div className="flex items-center justify-between w-full">
+								<h2 className="font-bold text-xl">{product.price} $</h2>
+								<button
+									type="button"
+									className="btn btn-primary bg-secondary"
+									onClick={() => postItemToBasket(basketId, product.id)}
+								>
+									Buy
+								</button>
 							</div>
 						</div>
-					</a>
+					</div>
 				</div>
 			))}
 		</div>
