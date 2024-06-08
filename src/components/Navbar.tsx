@@ -58,11 +58,13 @@ export default function Navbar() {
 					role="button"
 					className="btn btn-ghost btn-circle m-6"
 				>
-					<img
-						aria-label="Basket Icon"
-						src="/basket.svg"
-						className="scale-125"
-					/>
+					<a href="/basket">
+						<img
+							aria-label="Basket Icon"
+							src="/basket.svg"
+							className="scale-125"
+						/>
+					</a>
 				</div>
 			</div>
 		</div>

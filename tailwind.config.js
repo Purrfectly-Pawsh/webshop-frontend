@@ -4,8 +4,9 @@ export default {
 	theme: {
 		extend: {
 			colors: {
-				btn: "#99AFFF",
+				btnBlue: "#99AFFF",
 				btnFocused: "#6B7AB2",
+				btnRed: "#FF9D56",
 			},
 		},
 	},

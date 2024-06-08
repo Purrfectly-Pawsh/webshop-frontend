@@ -1,8 +1,10 @@
 import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
 import type { Review as ReviewType, Product } from "../utils/types";
 import { GETProductURL, GETReviewsForProductURL } from "../utils/urls";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Review from "../components/Review";
+import { postItemToBasket } from "../utils/api";
+import { SessionContext } from "../context/SessionContext";
 
 export const productDetailsPageLoader = async ({
 	params,
@@ -35,6 +37,8 @@ export const productDetailsPageLoader = async ({
 export default function ProductDetailsPage() {
 	const product = useLoaderData() as Product;
 	const [reviews, setReviews] = useState<ReviewType[]>([]);
+	const { getBasketId } = useContext(SessionContext);
+	const basketId = getBasketId();
 
 	useEffect(() => {
 		const fetchReviews = async () =>
@@ -93,11 +97,15 @@ export default function ProductDetailsPage() {
 							<p>{product.description}</p>
 						</div>
 						<div className="flex flex-col my-10 space-y-4">
-							<button type="button" className="btn bg-btn">
+							<button
+								type="button"
+								className="btn bg-btnBlue"
+								onClick={() => postItemToBasket(basketId, product.id)}
+							>
 								<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
 								Add to basket
 							</button>
-							<button type="button" className="btn bg-btn">
+							<button type="button" className="btn bg-btnBlue">
 								<img
 									alt="Heart"
 									src="/heart-svgrepo-com.svg"
