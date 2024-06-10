@@ -9,6 +9,7 @@ import { SessionContextProvider } from "./context/SessionContext";
 import ProductDetailsPage, {
 	productDetailsPageLoader,
 } from "./routes/ProductDetailsPage";
+import { AuthContextProvider } from "./context/AuthContext";
 
 const router = createBrowserRouter([
 	{
@@ -37,9 +38,11 @@ const root: HTMLElement | null = document.getElementById("root");
 if (root !== null) {
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
-			<SessionContextProvider>
-				<RouterProvider router={router} />
-			</SessionContextProvider>
+			<AuthContextProvider>
+				<SessionContextProvider>
+					<RouterProvider router={router} />
+				</SessionContextProvider>
+			</AuthContextProvider>
 		</React.StrictMode>,
 	);
 } else {

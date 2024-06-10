@@ -5,16 +5,16 @@ import { useContext, useEffect, useState } from "react";
 import Review from "../components/Review";
 import { postItemToBasket } from "../utils/api";
 import { SessionContext } from "../context/SessionContext";
+import { useAuth } from "../context/AuthContext";
 
 export const productDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
 	const response = fetch(GETProductURL + params.id, {
 		method: "GET",
-		mode: "cors", // no-cors, *cors, same-origin
+		mode: "cors",
 		headers: {
 			"Content-Type": "application/json",
-			// 'Content-Type': 'application/x-www-form-urlencoded',
 		},
 	})
 		.then((response) => {
@@ -39,6 +39,7 @@ export default function ProductDetailsPage() {
 	const [reviews, setReviews] = useState<ReviewType[]>([]);
 	const { getBasketId } = useContext(SessionContext);
 	const basketId = getBasketId();
+	const { role } = useAuth();
 
 	useEffect(() => {
 		const fetchReviews = async () =>
@@ -113,6 +114,12 @@ export default function ProductDetailsPage() {
 								/>
 								Remember
 							</button>
+							{role === "ADMIN" && (
+								<button type="button" className="btn bg-btnRed">
+									<img src="/edit-icon.svg" className="w-10 h-10" />
+									Edit
+								</button>
+							)}
 						</div>
 					</div>
 				</div>
