@@ -39,8 +39,7 @@ export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
 
-	const { getBasketId } = useContext(SessionContext);
-	const basketId = getBasketId();
+	const { basketId } = useContext(SessionContext);
 
 	return (
 		<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16 mt-8 mb-8">

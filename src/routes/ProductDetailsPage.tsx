@@ -37,8 +37,7 @@ export const productDetailsPageLoader = async ({
 export default function ProductDetailsPage() {
 	const product = useLoaderData() as Product;
 	const [reviews, setReviews] = useState<ReviewType[]>([]);
-	const { getBasketId } = useContext(SessionContext);
-	const basketId = getBasketId();
+	const { basketId } = useContext(SessionContext);
 
 	useEffect(() => {
 		const fetchReviews = async () =>

@@ -1,48 +1,11 @@
-import { useContext, useEffect, useState } from "react";
-import { Basket, BasketItem } from "../utils/types";
+import { useContext } from "react";
+import { BasketItem } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
-import { GETBasketURL } from "../utils/urls";
 import noImage from "../../public/no-image.svg";
+import { deleteItemFromBasket } from "../utils/api";
 
 export default function BasketPage() {
-	const { getBasketId } = useContext(SessionContext);
-	const [basket, setBasket] = useState<Basket>({
-		basketItems: [],
-		totalPrice: 0,
-	});
-
-	const basketId = getBasketId();
-
-	useEffect(() => {
-		const fetchBasket = async () => {
-			await fetch(GETBasketURL(basketId), {
-				method: "GET",
-				mode: "cors",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((res) => {
-					if (!res.ok) {
-						setBasket({ basketItems: [], totalPrice: 0 });
-						throw new Error("Network response was not ok!");
-					}
-					return res.json() as Promise<Basket>;
-				})
-				.then((data) => {
-					setBasket(data);
-				})
-				.catch((err) => {
-					console.error(
-						`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
-						err,
-					);
-				});
-		};
-		fetchBasket();
-		// for local testing only
-		console.log(basketId);
-	}, [basketId]);
+	const { basketId, basket, removeItemFrombasket } = useContext(SessionContext);
 
 	return (
 		<div className="bg-primary rounded-2xl m-40 border-4 border-gray-400 p-10">
@@ -81,7 +44,12 @@ export default function BasketPage() {
 									<h1 className="text-2xl font-semibold">
 										$ {basketItem.unitPrice}
 									</h1>
-									<button className="btn bg-btnRed text-xl">Remove</button>
+									<button
+										className="btn bg-btnRed text-xl"
+										onClick={() => removeItemFrombasket(basketItem, basketId)}
+									>
+										Remove
+									</button>
 								</div>
 							</div>
 						</div>
