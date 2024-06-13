@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 
 interface SessionContextType {
