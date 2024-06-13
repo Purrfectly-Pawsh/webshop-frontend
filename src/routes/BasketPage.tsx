@@ -21,7 +21,7 @@ export default function BasketPage() {
 									src={
 										basketItem.imageUrl === "" ? noImage : basketItem.imageUrl
 									}
-									alt={"No image available."}
+									alt={"No basket item preview"}
 									className="max-w-1/4 h-40 border-4 rounded-2xl mx-4"
 								/>
 							</a>
@@ -45,6 +45,7 @@ export default function BasketPage() {
 										$ {basketItem.unitPrice}
 									</h1>
 									<button
+										type="button"
 										className="btn bg-btnRed text-xl"
 										onClick={() => removeItemFrombasket(basketItem, basketId)}
 									>
@@ -65,13 +66,15 @@ export default function BasketPage() {
 						<span>Shipping:</span>
 						<span>$ 4.99</span>
 					</div>
-					<div className="flex-grow border-t-2 rounded-2xl border-black mt-28"></div>
+					<div className="flex-grow border-t-2 rounded-2xl border-black mt-28" />
 					<div className="flex justify-between text-2xl font-bold my-4">
 						<span>Total:</span>
 						<span>$ {basket.totalPrice.toFixed(2)}</span>
 					</div>
 					<div className="flex justify-center py-10">
-						<button className="btn bg-btnBlue text-2xl px-4">Checkout</button>
+						<button type="button" className="btn bg-btnBlue text-2xl px-4">
+							Checkout
+						</button>
 					</div>
 				</div>
 			</div>

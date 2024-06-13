@@ -1,6 +1,6 @@
-import { ReactNode, createContext, useEffect, useState } from "react";
+import { type ReactNode, createContext, useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Basket, BasketItem } from "../utils/types";
+import type { Basket, BasketItem } from "../utils/types";
 import { GETBasketURL } from "../utils/urls";
 import { deleteItemFromBasket } from "../utils/api";
 
