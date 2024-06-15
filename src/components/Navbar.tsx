@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function Navbar() {
 	const navigate = useNavigate();
@@ -6,7 +6,9 @@ export default function Navbar() {
 	return (
 		<div className="navbar bg-primary max-h-36 min-h-36">
 			<div className="hidden sm:block flex-1">
-				<img alt="Logo" src="/big_logo.png" className="h-32" />
+				<Link to={"/"}>
+					<img alt="Logo" src="/big_logo.png" className="h-32" />
+				</Link>
 			</div>
 			<div className="rounded-md w-1/3 mx-auto">
 				<div className="flex flex-grow input input-bordered items-center justify-between w-auto rounded-3xl">

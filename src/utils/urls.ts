@@ -9,3 +9,5 @@ export const GETBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
 export const POSTProductToBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
+export const DELETEProductFromBasketURL = (basketId: string, itemId: string) =>
+	`${baseURL}/baskets/${basketId}/items/${itemId}`;
