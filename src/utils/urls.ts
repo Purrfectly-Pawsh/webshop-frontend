@@ -12,4 +12,4 @@ export const GETBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
 export const POSTProductToBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
-export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`
+export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;

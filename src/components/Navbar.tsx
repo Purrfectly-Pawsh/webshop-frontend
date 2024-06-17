@@ -1,7 +1,10 @@
+import { useContext } from "react";
 import { useNavigate } from "react-router-dom";
+import { SessionContext } from "../context/SessionContext";
 
 export default function Navbar() {
 	const navigate = useNavigate();
+	const { user, signinRedirect, signoutSilent } = useContext(SessionContext);
 
 	return (
 		<div className="navbar bg-primary max-h-36 min-h-36">
@@ -39,19 +42,41 @@ export default function Navbar() {
 				</div>
 			</div>
 			<div className="flex-1 justify-end">
-				<div
-					tabIndex={0}
-					role="button"
-					className="btn btn-ghost btn-circle m-6"
-				>
+				<button type="button" className="btn btn-ghost btn-circle m-6">
 					<img aria-label="Support Icon" src="/support.svg" />
-				</div>
-				<div
-					tabIndex={0}
-					role="button"
-					className="btn btn-ghost btn-circle m-6"
-				>
-					<img aria-label="Profile Icon" src="/profile.svg" />
+				</button>
+				<div className="dropdown dropdown-end">
+					<button type="button" className="btn btn-ghost btn-circle m-6">
+						<img aria-label="Profile Icon" src="/profile.svg" />
+					</button>
+					<ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 gap-2">
+						{user.authenticated && (
+							<li>
+								<button type="button" className="flex flex-row items-center">
+									<img alt="Logout" src="/profile.svg" className="h-5" />
+									Profile
+								</button>
+							</li>
+						)}
+						<li>
+							<button
+								className="flex flex-row items-center"
+								type="button"
+								onClick={
+									user.authenticated
+										? () => signoutSilent()
+										: () => signinRedirect()
+								}
+							>
+								<img
+									alt={user.authenticated ? "Logout" : "Login"}
+									src={user.authenticated ? "/logout.svg" : "/login.svg"}
+									className="h-5"
+								/>
+								{user.authenticated ? "Logout" : "Login"}
+							</button>
+						</li>
+					</ul>
 				</div>
 				<div
 					tabIndex={0}
