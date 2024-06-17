@@ -17,11 +17,11 @@ interface SessionContextType {
 }
 
 interface CustomDecodedToken {
-    resource_access: {
-        purrfectly_pawsh: {
-            roles: string[];
-        };
-    };
+	resource_access: {
+		purrfectly_pawsh: {
+			roles: string[];
+		};
+	};
 }
 
 interface User {
@@ -36,7 +36,7 @@ const guest = {
 	roles: [],
 	isAdmin: false,
 	isUser: false,
-}
+};
 
 export const SessionContext = createContext<SessionContextType>({
 	basketId: "",
@@ -66,22 +66,26 @@ export const SessionContextProvider = ({
 	});
 	const auth = useAuth();
 	const [user, setUser] = useState<User>(guest);
-	
+
 	useEffect(() => {
 		if (auth.isAuthenticated && auth.user) {
 			try {
 				const decoded = jwtDecode<CustomDecodedToken>(auth.user.access_token);
-			const user: User = {
-				authenticated: true,
-				roles: decoded.resource_access.purrfectly_pawsh.roles,
-				isAdmin: decoded.resource_access.purrfectly_pawsh.roles.includes("ADMIN"),
-				isUser: decoded.resource_access.purrfectly_pawsh.roles.includes("ADMIN"),
-			}
-			setUser(user);
+				const user: User = {
+					authenticated: true,
+					roles: decoded.resource_access.purrfectly_pawsh.roles,
+					isAdmin:
+						decoded.resource_access.purrfectly_pawsh.roles.includes("ADMIN"),
+					isUser:
+						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
+				};
+				setUser(user);
 			} catch (error) {
 				setUser(guest);
-				console.error("Couldn't decode access token")
+				console.error("Couldn't decode access token");
 			}
+		} else {
+			setUser(guest);
 		}
 	}, [auth]);
 
@@ -128,11 +132,13 @@ export const SessionContextProvider = ({
 	};
 
 	return (
-		<SessionContext.Provider value={{
-			...auth,
-			basketId, basket, removeItemFrombasket,
-			user
-		}}>
+		<SessionContext.Provider
+			value={{
+				...auth,
+				basketId, basket, removeItemFrombasket,
+				user,
+			}}
+		>
 			{children}
 		</SessionContext.Provider>
 	);

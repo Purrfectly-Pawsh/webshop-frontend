@@ -14,4 +14,4 @@ export const POSTProductToBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
 export const DELETEProductFromBasketURL = (basketId: string, itemId: string) =>
 	`${baseURL}/baskets/${basketId}/items/${itemId}`;
-export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`
+export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;

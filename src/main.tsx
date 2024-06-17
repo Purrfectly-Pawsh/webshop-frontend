@@ -9,7 +9,7 @@ import { SessionContextProvider } from "./context/SessionContext";
 import ProductDetailsPage, {
 	productDetailsPageLoader,
 } from "./routes/ProductDetailsPage";
-import { UserManager } from "oidc-client-ts";
+import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
 
@@ -36,6 +36,10 @@ const router = createBrowserRouter([
 	},
 ]);
 
+const onSigninCallback = (_user: User | void): void => {
+	window.history.replaceState({}, document.title, window.location.pathname);
+};
+
 const oidcConfig = new UserManager({
 	authority: keycloakServerURL,
 	client_id: keycloakClientID,
@@ -47,7 +51,10 @@ const root: HTMLElement | null = document.getElementById("root");
 if (root !== null) {
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
-			<AuthProvider userManager={oidcConfig}>
+			<AuthProvider
+				userManager={oidcConfig}
+				onSigninCallback={onSigninCallback}
+			>
 				<SessionContextProvider>
 					<RouterProvider router={router} />
 				</SessionContextProvider>
