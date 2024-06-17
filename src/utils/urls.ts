@@ -1,4 +1,7 @@
-const baseURL = import.meta.env.VITE_PRODUCT_SERVICE_BASE_URL;
+const baseURL = import.meta.env.VITE_API_GATEWAY_SERVICE_BASE_URL;
+const keycloakURL = import.meta.env.VITE_KEYCLOAK_SERVER_URL;
+const keycloakRealm = import.meta.env.VITE_KEYCLOAK_REALM;
+export const keycloakClientID = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 export const GETProductsURL = `${baseURL}/products`;
 export const GETProductURL = `${baseURL}/products/`;
@@ -11,3 +14,4 @@ export const POSTProductToBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
 export const DELETEProductFromBasketURL = (basketId: string, itemId: string) =>
 	`${baseURL}/baskets/${basketId}/items/${itemId}`;
+export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;
