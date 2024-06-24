@@ -39,7 +39,7 @@ export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
 
-	const { basketId } = useContext(SessionContext);
+	const { basketId, user } = useContext(SessionContext);
 
 	return (
 		<div className="grid grid-cols-4 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-x-0 gap-y-16 mt-8 mb-8">
@@ -68,6 +68,7 @@ export default function ProductsPage() {
 								<h2 className="font-bold text-xl">{product.price} $</h2>
 								<button
 									type="button"
+									disabled={user.isAdmin}
 									className="btn btn-primary bg-secondary"
 									onClick={() => postItemToBasket(basketId, product.id)}
 								>

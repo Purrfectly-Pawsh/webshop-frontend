@@ -135,7 +135,9 @@ export const SessionContextProvider = ({
 		<SessionContext.Provider
 			value={{
 				...auth,
-				basketId, basket, removeItemFrombasket,
+				basketId,
+				basket,
+				removeItemFrombasket,
 				user,
 			}}
 		>

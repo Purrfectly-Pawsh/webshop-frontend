@@ -1,11 +1,11 @@
 import { useContext } from "react";
-import { BasketItem } from "../utils/types";
+import type { BasketItem } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
 import noImage from "../../public/no-image.svg";
-import { deleteItemFromBasket } from "../utils/api";
 
 export default function BasketPage() {
-	const { basketId, basket, removeItemFrombasket } = useContext(SessionContext);
+	const { basketId, basket, removeItemFrombasket, user } =
+		useContext(SessionContext);
 
 	return (
 		<div className="bg-primary rounded-2xl m-40 border-4 border-gray-400 p-10">
@@ -31,7 +31,10 @@ export default function BasketPage() {
 									Amount: {basketItem.quantity}
 								</h2>
 
-								<select className="select rounded-2xl border-black">
+								<select
+									className="select rounded-2xl border-black"
+									disabled={user.isAdmin}
+								>
 									{[...Array(10).keys()].map((num) => (
 										<option key={num} value={num + 1}>
 											{num + 1}
@@ -46,6 +49,7 @@ export default function BasketPage() {
 									</h1>
 									<button
 										type="button"
+										disabled={user.isAdmin}
 										className="btn bg-btnRed text-xl"
 										onClick={() => removeItemFrombasket(basketItem, basketId)}
 									>
@@ -72,7 +76,11 @@ export default function BasketPage() {
 						<span>$ {basket.totalPrice.toFixed(2)}</span>
 					</div>
 					<div className="flex justify-center py-10">
-						<button type="button" className="btn bg-btnBlue text-2xl px-4">
+						<button
+							type="button"
+							className="btn bg-btnBlue text-2xl px-4"
+							disabled={user.isAdmin}
+						>
 							Checkout
 						</button>
 					</div>
