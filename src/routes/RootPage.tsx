@@ -5,10 +5,10 @@ import Footer from "../components/Footer";
 
 export default function RootPage() {
 	return (
-		<div className="flex flex-col h-screen">
+		<div className="flex flex-col h-screen w-screen">
 			<Navbar />
 			<CategoryMenu />
-			<div className="overflow-auto flex-grow">
+			<div className="overflow-y-auto flex-grow">
 				<Outlet />
 			</div>
 			<Footer />
