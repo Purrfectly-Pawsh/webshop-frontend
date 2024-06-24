@@ -2,12 +2,12 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import "./index.css";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
-import ProductsPage, { productsPageLoader } from "./routes/ProductsPage";
+import ProductsPage, { ProductsPageLoader } from "./routes/ProductsPage";
 import RootPage from "./routes/RootPage";
 import BasketPage from "./routes/BasketPage";
 import { SessionContextProvider } from "./context/SessionContext";
 import ProductDetailsPage, {
-	productDetailsPageLoader,
+	ProductDetailsPageLoader,
 } from "./routes/ProductDetailsPage";
 import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
@@ -20,13 +20,13 @@ const router = createBrowserRouter([
 		children: [
 			{
 				path: "products/search?/",
-				loader: productsPageLoader,
+				loader: ProductsPageLoader,
 				element: <ProductsPage />,
 			},
 			{
 				path: "product/:id",
 				element: <ProductDetailsPage />,
-				loader: productDetailsPageLoader,
+				loader: ProductDetailsPageLoader,
 			},
 			{
 				path: "basket",

@@ -5,7 +5,7 @@ import { useContext } from "react";
 import { SessionContext } from "../context/SessionContext";
 import { postItemToBasket } from "../utils/api";
 
-export const productsPageLoader = async ({ request }: LoaderFunctionArgs) => {
+export const ProductsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
 	const keyword: string = url.searchParams.get("keyword") || "";
 	const fetchURL: string =

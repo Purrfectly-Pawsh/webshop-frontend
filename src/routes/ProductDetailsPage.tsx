@@ -6,7 +6,7 @@ import Review from "../components/Review";
 import { postItemToBasket } from "../utils/api";
 import { SessionContext } from "../context/SessionContext";
 
-export const productDetailsPageLoader = async ({
+export const ProductDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
 	const response = fetch(GETProductURL + params.id, {
