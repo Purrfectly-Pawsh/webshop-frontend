@@ -32,6 +32,14 @@ const router = createBrowserRouter([
 				path: "basket",
 				element: <BasketPage />,
 			},
+			{
+				path: "/payment/success",
+				element: (
+					<div>
+						<h1>Successful Payment</h1>
+					</div>
+				),
+			},
 		],
 	},
 ]);
