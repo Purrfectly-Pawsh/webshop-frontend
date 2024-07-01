@@ -1,8 +1,9 @@
-import type { Basket, BasketItem, Product } from "./types";
+import type { Basket, BasketItem, Product, Review } from "./types";
 import {
 	DELETEProductFromBasketURL,
 	POSTProductToBasketURL,
 	POSTProductURL,
+	POSTReviewURL,
 } from "./urls";
 
 export const postItemToBasket = async (basketId: string, itemId: string) => {
@@ -79,6 +80,37 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		.catch((error) => {
 			console.error(
 				"There was a problem with the fetch operation [POST NEW BOOK]:",
+				error,
+			);
+		});
+	return response;
+}
+
+export async function postReview(
+	productId: string,
+	payload: Omit<Review, "id">,
+	token: string
+) {
+	const response = await fetch(POSTReviewURL(productId), {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(payload),
+	})
+		.then((response) => {
+			if (response.ok) {
+				return response.json() as Promise<Review>;
+			}
+		})
+		.then((data) => {
+			return data
+		})
+		.catch((error) => {
+			console.error(
+				"There was a problem with the fetch operation \
+				[POST NEW REVIEW]:",
 				error,
 			);
 		});
