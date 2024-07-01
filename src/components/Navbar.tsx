@@ -80,19 +80,21 @@ export default function Navbar() {
 						</li>
 					</ul>
 				</div>
-				<div
-					tabIndex={0}
-					role="button"
-					className="btn btn-ghost btn-circle m-6"
-				>
-					<a href="/basket">
-						<img
-							aria-label="Basket Icon"
-							src="/basket.svg"
-							className="scale-125"
-						/>
-					</a>
-				</div>
+				{!user.isAdmin && (
+					<div
+						tabIndex={0}
+						role="button"
+						className="btn btn-ghost btn-circle m-6"
+					>
+						<a href="/basket">
+							<img
+								aria-label="Basket Icon"
+								src="/basket.svg"
+								className="scale-125"
+							/>
+						</a>
+					</div>
+				)}
 			</div>
 		</div>
 	);
