@@ -3,8 +3,7 @@ import { type ReactNode, createContext, useState, useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 import { v4 as uuidv4 } from "uuid";
 import type { Basket, BasketItem } from "../utils/types";
-import { GETBasketURL } from "../utils/urls";
-import { deleteItemFromBasket } from "../utils/api";
+import { deleteItemFromBasket, fetchBasket } from "../utils/api";
 
 interface SessionContextType {
 	basketId: string;
@@ -17,6 +16,7 @@ interface SessionContextType {
 }
 
 interface CustomDecodedToken {
+	sub: string; // sub claim => userId
 	resource_access: {
 		purrfectly_pawsh: {
 			roles: string[];
@@ -64,6 +64,7 @@ export const SessionContextProvider = ({
 		totalPrice: 0,
 		basketItems: [],
 	});
+
 	const auth = useAuth();
 	const [user, setUser] = useState<User>(guest);
 
@@ -80,6 +81,7 @@ export const SessionContextProvider = ({
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 				};
 				setUser(user);
+				setBasketId(decoded.sub);
 			} catch (error) {
 				setUser(guest);
 				console.error("Couldn't decode access token");
@@ -90,43 +92,25 @@ export const SessionContextProvider = ({
 	}, [auth]);
 
 	useEffect(() => {
-		if (!basketId) {
+		if (!user.authenticated) {
 			const newBasketId = uuidv4();
 			localStorage.setItem("basketId", newBasketId);
 			setBasketId(newBasketId);
+			console.log(user);
+			console.log("SET NEW BASKETID");
 		}
-	}, [basketId]);
+	}, [user.authenticated]);
 
 	useEffect(() => {
-		const fetchBasket = async () => {
-			console.log("Updating basket");
-			await fetch(GETBasketURL(basketId), {
-				method: "GET",
-				mode: "cors",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((res) => {
-					if (!res.ok) {
-						throw new Error("Network response was not ok!");
-					}
-					return res.json() as Promise<Basket>;
-				})
-				.then((data) => {
-					setBasket(data);
-				})
-				.catch((err) => {
-					console.error(
-						`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
-						err,
-					);
-				});
-		};
-		fetchBasket();
+		fetchBasket(basketId)
+			.then((retrievedBasket: Basket) => setBasket(retrievedBasket))
+			.catch((err: Error) => {
+				console.log(err.message);
+				throw err;
+			});
 	}, [basketId]);
 
-	const removeItemFrombasket = async (itemId: BasketItem, basketId: string) => {
+	const removeItemFromBasket = async (itemId: BasketItem, basketId: string) => {
 		const basketUpdated = await deleteItemFromBasket(basketId, itemId);
 		setBasket(basketUpdated);
 	};
@@ -135,7 +119,9 @@ export const SessionContextProvider = ({
 		<SessionContext.Provider
 			value={{
 				...auth,
-				basketId, basket, removeItemFrombasket,
+				basketId,
+				basket,
+				removeItemFrombasket: removeItemFromBasket,
 				user,
 			}}
 		>

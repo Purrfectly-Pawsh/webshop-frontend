@@ -1,6 +1,36 @@
-import { error } from "console";
 import { Basket, BasketItem } from "./types";
-import { DELETEProductFromBasketURL, POSTProductToBasketURL } from "./urls";
+import {
+	DELETEProductFromBasketURL,
+	GETBasketURL,
+	POSTProductToBasketURL,
+} from "./urls";
+
+export const fetchBasket = (basketId: string) => {
+	console.log("Updating basket");
+	return fetch(GETBasketURL(basketId), {
+		method: "GET",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+	})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error("Network response was not ok!");
+			}
+			return res.json() as Promise<Basket>;
+		})
+		.then((data: Basket) => {
+			return data;
+		})
+		.catch((err) => {
+			console.error(
+				`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
+				err,
+			);
+			throw err;
+		});
+};
 
 export const postItemToBasket = async (basketId: string, itemId: string) => {
 	await fetch(POSTProductToBasketURL(basketId), {
