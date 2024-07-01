@@ -29,6 +29,7 @@ interface User {
 	roles: string[];
 	isAdmin: boolean;
 	isUser: boolean;
+	token: string;
 }
 
 const guest = {
@@ -36,6 +37,7 @@ const guest = {
 	roles: [],
 	isAdmin: false,
 	isUser: false,
+	token: "",
 };
 
 export const SessionContext = createContext<SessionContextType>({
@@ -78,6 +80,7 @@ export const SessionContextProvider = ({
 						decoded.resource_access.purrfectly_pawsh.roles.includes("ADMIN"),
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
+					token: auth.user.access_token,
 				};
 				setUser(user);
 			} catch (error) {
@@ -135,7 +138,9 @@ export const SessionContextProvider = ({
 		<SessionContext.Provider
 			value={{
 				...auth,
-				basketId, basket, removeItemFrombasket,
+				basketId,
+				basket,
+				removeItemFrombasket,
 				user,
 			}}
 		>
