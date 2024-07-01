@@ -73,7 +73,7 @@ export default function ProductsPage() {
 							<p>{product.producer}</p>
 							<div className="card-actions justify-end">
 								<div className="flex items-center justify-between w-full">
-									<h2 className="font-bold text-xl">{product.price} $</h2>
+									<h2 className="font-bold text-xl">{product.price.toFixed(2)} $</h2>
 									<button
 										type="button"
 										disabled={user.isAdmin}
