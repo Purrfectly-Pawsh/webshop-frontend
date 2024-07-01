@@ -1,6 +1,9 @@
-import { error } from "console";
-import { Basket, BasketItem } from "./types";
-import { DELETEProductFromBasketURL, POSTProductToBasketURL } from "./urls";
+import type { Basket, BasketItem, Product } from "./types";
+import {
+	DELETEProductFromBasketURL,
+	POSTProductToBasketURL,
+	POSTProductURL,
+} from "./urls";
 
 export const postItemToBasket = async (basketId: string, itemId: string) => {
 	await fetch(POSTProductToBasketURL(basketId), {
@@ -55,3 +58,29 @@ export const deleteItemFromBasket = async (
 			throw err;
 		});
 };
+
+export async function postProduct(payload: Omit<Product, "id">, token: string) {
+	const response = await fetch(POSTProductURL, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(payload),
+	})
+		.then((response) => {
+			if (response.ok) {
+				return response.json() as Promise<Product>;
+			}
+		})
+		.then((data) => {
+			return data
+		})
+		.catch((error) => {
+			console.error(
+				"There was a problem with the fetch operation [POST NEW BOOK]:",
+				error,
+			);
+		});
+	return response;
+}

@@ -12,6 +12,8 @@ import ProductDetailsPage, {
 import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
+import CreateProductPage from "./routes/CreateProductPage";
+import RequireAdmin from "./components/RequireAdmin";
 
 const router = createBrowserRouter([
 	{
@@ -22,6 +24,14 @@ const router = createBrowserRouter([
 				path: "products/search?/",
 				loader: ProductsPageLoader,
 				element: <ProductsPage />,
+			},
+			{
+				path: "products/create",
+				element: 
+				<RequireAdmin>
+					<CreateProductPage />
+				</RequireAdmin>,
+				loader: ProductDetailsPageLoader,
 			},
 			{
 				path: "product/:id",

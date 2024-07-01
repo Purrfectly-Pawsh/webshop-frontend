@@ -29,3 +29,5 @@ export interface Review {
 	title: string;
 	date: string;
 }
+
+export const Categories = ["DOG", "CAT", "BIRD"];

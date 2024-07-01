@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, useLoaderData } from "react-router-dom";
+import { type LoaderFunctionArgs, useLoaderData, useNavigate } from "react-router-dom";
 import type { Product } from "../utils/types";
 import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 import { useContext } from "react";
@@ -38,14 +38,14 @@ export const ProductsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 
 export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
-
 	const { basketId, user } = useContext(SessionContext);
+	const navigate = useNavigate();
 
 	return (
 		<div className="mx-16">
 			{user.isAdmin && (
 				<div className="w-full flex justify-end">
-					<button type="button" className="btn bg-btnBlue mt-8 text-lg h-16">
+					<button type="button" className="btn bg-btnBlue mt-8 text-lg h-16" onClick={() => navigate("create")}>
 						Create new product
 					</button>
 				</div>
@@ -64,7 +64,7 @@ export default function ProductsPage() {
 								<img
 									src={product.imageUrl}
 									className="max-w-full max-h-full"
-									alt="Shoes"
+									alt={product.name}
 								/>
 							</figure>
 						</a>
