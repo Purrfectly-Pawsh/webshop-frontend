@@ -10,7 +10,7 @@ interface SessionContextType {
 	basket: Basket;
 	removeItemFrombasket: (itemId: BasketItem, basketId: string) => void;
 	signinRedirect: () => Promise<void>;
-	signoutSilent: () => Promise<void>;
+	signoutRedirect: () => Promise<void>;
 	isLoading: boolean;
 	user: User;
 }
@@ -43,7 +43,7 @@ export const SessionContext = createContext<SessionContextType>({
 	basket: { totalPrice: 0, basketItems: [] },
 	removeItemFrombasket: () => {},
 	signinRedirect: async () => {},
-	signoutSilent: async () => {},
+	signoutRedirect: async () => {},
 	isLoading: false,
 	user: guest,
 });
@@ -81,25 +81,26 @@ export const SessionContextProvider = ({
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 				};
 				setUser(user);
+				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
 				setBasketId(decoded.sub);
 			} catch (error) {
 				setUser(guest);
 				console.error("Couldn't decode access token");
 			}
 		} else {
+			console.log("setting guest user");
 			setUser(guest);
 		}
-	}, [auth]);
-
-	useEffect(() => {
-		if (!user.authenticated) {
+		if (auth.activeNavigator === "signoutRedirect") {
 			const newBasketId = uuidv4();
 			localStorage.setItem("basketId", newBasketId);
 			setBasketId(newBasketId);
-			console.log(user);
-			console.log("SET NEW BASKETID");
 		}
-	}, [user.authenticated]);
+	}, [auth.isAuthenticated, auth.user, auth.activeNavigator]);
+
+	useEffect(() => {
+		localStorage.setItem("basketId", basketId);
+	}, [basketId]);
 
 	useEffect(() => {
 		fetchBasket(basketId)

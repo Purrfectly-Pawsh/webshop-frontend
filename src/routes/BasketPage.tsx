@@ -2,7 +2,6 @@ import { useContext } from "react";
 import { BasketItem } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
 import noImage from "../../public/no-image.svg";
-import { deleteItemFromBasket } from "../utils/api";
 
 export default function BasketPage() {
 	const { basketId, basket, removeItemFrombasket } = useContext(SessionContext);
@@ -61,10 +60,6 @@ export default function BasketPage() {
 					<div className="flex font-medium text-xl justify-between my-4">
 						<span>Items:</span>
 						<span>$ {basket.totalPrice.toFixed(2)}</span>
-					</div>
-					<div className="flex font-medium text-xl justify-between my-2">
-						<span>Shipping:</span>
-						<span>$ 4.99</span>
 					</div>
 					<div className="flex-grow border-t-2 rounded-2xl border-black mt-28" />
 					<div className="flex justify-between text-2xl font-bold my-4">

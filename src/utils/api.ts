@@ -6,7 +6,6 @@ import {
 } from "./urls";
 
 export const fetchBasket = (basketId: string) => {
-	console.log("Updating basket");
 	return fetch(GETBasketURL(basketId), {
 		method: "GET",
 		mode: "cors",

@@ -4,7 +4,7 @@ import { SessionContext } from "../context/SessionContext";
 
 export default function Navbar() {
 	const navigate = useNavigate();
-	const { user, signinRedirect, signoutSilent } = useContext(SessionContext);
+	const { user, signinRedirect, signoutRedirect } = useContext(SessionContext);
 
 	return (
 		<div className="navbar bg-primary max-h-36 min-h-36">
@@ -66,7 +66,7 @@ export default function Navbar() {
 								type="button"
 								onClick={
 									user.authenticated
-										? () => signoutSilent()
+										? () => signoutRedirect()
 										: () => signinRedirect()
 								}
 							>
