@@ -12,6 +12,8 @@ import ProductDetailsPage, {
 import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
+import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
+import PaymentFailedPage from "./routes/PaymentFailedPage";
 
 const router = createBrowserRouter([
 	{
@@ -34,11 +36,11 @@ const router = createBrowserRouter([
 			},
 			{
 				path: "/payment/success",
-				element: (
-					<div>
-						<h1>Successful Payment</h1>
-					</div>
-				),
+				element: <SuccessfulPaymentPage />,
+			},
+			{
+				path: "/payment/failed",
+				element: <PaymentFailedPage />,
 			},
 		],
 	},
