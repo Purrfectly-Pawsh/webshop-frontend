@@ -12,7 +12,7 @@ export default function BasketPage() {
 	const { basketId, basket, removeItemFrombasket } = useContext(SessionContext);
 
 	const handleRedirect = async () => {
-		const response: SessionResponse = await postCheckout(basket);
+		const response: SessionResponse = await postCheckout(basket, basketId);
 		window.location.href = response.sessionUrl;
 	};
 

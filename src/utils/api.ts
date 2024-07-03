@@ -59,14 +59,14 @@ export const deleteItemFromBasket = async (
 		});
 };
 
-export const postCheckout = async (basket: Basket) => {
+export const postCheckout = async (basket: Basket, id: string) => {
 	return await fetch(POSTCheckoutURL, {
 		method: "POST",
 		mode: "cors",
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify(basket),
+		body: JSON.stringify({userId: id, ...basket}),
 	})
 		.then((res) => {
 			if (!res.ok) {
