@@ -86,7 +86,6 @@ export const SessionContextProvider = ({
 				setUser(user);
 				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
 				if (basket.basketItems.length !== 0) {
-					console.log(basket, basketId, decoded.sub);
 					updateBasket(basketId, decoded.sub, user.token).then((bask) =>
 						setBasket(bask),
 					);
@@ -99,7 +98,10 @@ export const SessionContextProvider = ({
 		} else {
 			setUser(guest);
 		}
-		if (auth.activeNavigator === "signoutRedirect") {
+		if (
+			auth.activeNavigator === "signoutRedirect" ||
+			auth.activeNavigator === "signoutSilent"
+		) {
 			const newBasketId = uuidv4();
 			setBasketId(newBasketId);
 		}

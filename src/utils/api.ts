@@ -135,7 +135,7 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 			}
 		})
 		.then((data) => {
-			return data
+			return data;
 		})
 		.catch((error) => {
 			console.error(
