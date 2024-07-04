@@ -3,7 +3,7 @@ import { type ReactNode, createContext, useState, useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 import { v4 as uuidv4 } from "uuid";
 import type { Basket, BasketItem } from "../utils/types";
-import { deleteItemFromBasket, fetchBasket } from "../utils/api";
+import { deleteItemFromBasket, fetchBasket, updateBasket } from "../utils/api";
 
 interface SessionContextType {
 	basketId: string;
@@ -82,18 +82,22 @@ export const SessionContextProvider = ({
 				};
 				setUser(user);
 				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
+				if (basket.basketItems.length !== 0) {
+					console.log(basket, basketId, decoded.sub);
+					updateBasket(basketId, decoded.sub, user.token).then((bask) =>
+						setBasket(bask),
+					);
+				}
 				setBasketId(decoded.sub);
 			} catch (error) {
 				setUser(guest);
 				console.error("Couldn't decode access token");
 			}
 		} else {
-			console.log("setting guest user");
 			setUser(guest);
 		}
 		if (auth.activeNavigator === "signoutRedirect") {
 			const newBasketId = uuidv4();
-			localStorage.setItem("basketId", newBasketId);
 			setBasketId(newBasketId);
 		}
 	}, [auth.isAuthenticated, auth.user, auth.activeNavigator]);

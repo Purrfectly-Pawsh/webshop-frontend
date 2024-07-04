@@ -15,3 +15,5 @@ export const POSTProductToBasketURL = (basketId: string) =>
 export const DELETEProductFromBasketURL = (basketId: string, itemId: string) =>
 	`${baseURL}/baskets/${basketId}/items/${itemId}`;
 export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;
+export const PUTUpdateBasketURL = (guestBasketId: string) =>
+	`${baseURL}/baskets/${guestBasketId}`;
