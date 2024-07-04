@@ -12,10 +12,14 @@ import ProductDetailsPage, {
 import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
+<<<<<<< HEAD
 import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
 import PaymentFailedPage from "./routes/PaymentFailedPage";
+=======
 import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
+>>>>>>> origin/main
+>>>>>>> 39d02a45d1d8f7c22889d9c93fd108ae12741939
 
 const router = createBrowserRouter([
 	{
