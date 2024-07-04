@@ -3,20 +3,20 @@ import { type ReactNode, createContext, useState, useEffect } from "react";
 import { useAuth } from "react-oidc-context";
 import { v4 as uuidv4 } from "uuid";
 import type { Basket, BasketItem } from "../utils/types";
-import { GETBasketURL } from "../utils/urls";
-import { deleteItemFromBasket } from "../utils/api";
+import { deleteItemFromBasket, fetchBasket, updateBasket } from "../utils/api";
 
 interface SessionContextType {
 	basketId: string;
 	basket: Basket;
-	removeItemFrombasket: (itemId: BasketItem, basketId: string) => void;
+	removeItemFromBasket: (itemId: BasketItem, basketId: string) => void;
 	signinRedirect: () => Promise<void>;
-	signoutSilent: () => Promise<void>;
+	signoutRedirect: () => Promise<void>;
 	isLoading: boolean;
 	user: User;
 }
 
 interface CustomDecodedToken {
+	sub: string; // sub claim => userId
 	resource_access: {
 		purrfectly_pawsh: {
 			roles: string[];
@@ -43,9 +43,9 @@ const guest = {
 export const SessionContext = createContext<SessionContextType>({
 	basketId: "",
 	basket: { totalPrice: 0, basketItems: [] },
-	removeItemFrombasket: () => {},
+	removeItemFromBasket: () => {},
 	signinRedirect: async () => {},
-	signoutSilent: async () => {},
+	signoutRedirect: async () => {},
 	isLoading: false,
 	user: guest,
 });
@@ -66,6 +66,7 @@ export const SessionContextProvider = ({
 		totalPrice: 0,
 		basketItems: [],
 	});
+
 	const auth = useAuth();
 	const [user, setUser] = useState<User>(guest);
 
@@ -83,6 +84,13 @@ export const SessionContextProvider = ({
 					token: auth.user.access_token,
 				};
 				setUser(user);
+				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
+				if (basket.basketItems.length !== 0) {
+					updateBasket(basketId, decoded.sub, user.token).then((bask) =>
+						setBasket(bask),
+					);
+				}
+				setBasketId(decoded.sub);
 			} catch (error) {
 				setUser(guest);
 				console.error("Couldn't decode access token");
@@ -90,46 +98,29 @@ export const SessionContextProvider = ({
 		} else {
 			setUser(guest);
 		}
-	}, [auth]);
-
-	useEffect(() => {
-		if (!basketId) {
+		if (
+			auth.activeNavigator === "signoutRedirect" ||
+			auth.activeNavigator === "signoutSilent"
+		) {
 			const newBasketId = uuidv4();
-			localStorage.setItem("basketId", newBasketId);
 			setBasketId(newBasketId);
 		}
+	}, [auth.isAuthenticated, auth.user, auth.activeNavigator]);
+
+	useEffect(() => {
+		localStorage.setItem("basketId", basketId);
 	}, [basketId]);
 
 	useEffect(() => {
-		const fetchBasket = async () => {
-			console.log("Updating basket");
-			await fetch(GETBasketURL(basketId), {
-				method: "GET",
-				mode: "cors",
-				headers: {
-					"Content-Type": "application/json",
-				},
-			})
-				.then((res) => {
-					if (!res.ok) {
-						throw new Error("Network response was not ok!");
-					}
-					return res.json() as Promise<Basket>;
-				})
-				.then((data) => {
-					setBasket(data);
-				})
-				.catch((err) => {
-					console.error(
-						`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
-						err,
-					);
-				});
-		};
-		fetchBasket();
+		fetchBasket(basketId)
+			.then((retrievedBasket: Basket) => setBasket(retrievedBasket))
+			.catch((err: Error) => {
+				console.log(err.message);
+				throw err;
+			});
 	}, [basketId]);
 
-	const removeItemFrombasket = async (itemId: BasketItem, basketId: string) => {
+	const removeItemFromBasket = async (itemId: BasketItem, basketId: string) => {
 		const basketUpdated = await deleteItemFromBasket(basketId, itemId);
 		setBasket(basketUpdated);
 	};
@@ -140,7 +131,7 @@ export const SessionContextProvider = ({
 				...auth,
 				basketId,
 				basket,
-				removeItemFrombasket,
+				removeItemFromBasket,
 				user,
 			}}
 		>
