@@ -4,7 +4,7 @@ import { SessionContext } from "../context/SessionContext";
 import noImage from "../../public/no-image.svg";
 
 export default function BasketPage() {
-	const { basketId, basket, removeItemFrombasket, user } =
+	const { basketId, basket, removeItemFromBasket, user } =
 		useContext(SessionContext);
 
 	return (
@@ -51,7 +51,7 @@ export default function BasketPage() {
 										type="button"
 										disabled={user.isAdmin}
 										className="btn bg-btnRed text-xl"
-										onClick={() => removeItemFrombasket(basketItem, basketId)}
+										onClick={() => removeItemFromBasket(basketItem, basketId)}
 									>
 										Remove
 									</button>
@@ -65,10 +65,6 @@ export default function BasketPage() {
 					<div className="flex font-medium text-xl justify-between my-4">
 						<span>Items:</span>
 						<span>$ {basket.totalPrice.toFixed(2)}</span>
-					</div>
-					<div className="flex font-medium text-xl justify-between my-2">
-						<span>Shipping:</span>
-						<span>$ 4.99</span>
 					</div>
 					<div className="flex-grow border-t-2 rounded-2xl border-black mt-28" />
 					<div className="flex justify-between text-2xl font-bold my-4">
