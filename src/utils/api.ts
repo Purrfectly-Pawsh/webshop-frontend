@@ -9,19 +9,19 @@ import {
 	PUTUpdateBasketURL,
 } from "./urls";
 
-
 function sendFetch<ResponseType>(
 	url: string,
 	method: "GET" | "POST" | "PUT" | "DELETE",
 	token: string,
-	name: string,
+	errMsg: string,
 	payload?: object,
 ) {
 	const requestOptions: RequestInit = {
 		method,
+		mode: "cors",
 		headers: {
 			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
+			...(token !== "" ? { Authorization: `Bearer ${token}` } : {}),
 		},
 		...(method !== "GET" && payload ? { body: JSON.stringify(payload) } : {}),
 	};
@@ -37,21 +37,17 @@ function sendFetch<ResponseType>(
 			return data;
 		})
 		.catch((error) => {
-			console.error(
-				`There was a problem with the fetch operation [${name}]:`,
-				error,
-			);
+			console.error(errMsg, error);
 		});
 	return response;
 }
-
 
 export const postItemToBasket = async (basketId: string, itemId: string) => {
 	return await sendFetch(
 		POSTProductToBasketURL(basketId),
 		"POST",
 		"",
-		"POST ITEM TO BASKET",
+		"Failed to execute: 'post item to basket'",
 		{ productId: itemId, quantity: 1 },
 	);
 };
@@ -64,7 +60,7 @@ export const deleteItemFromBasket = async (
 		DELETEProductFromBasketURL(basketId, basketItem.basketItemId),
 		"DELETE",
 		"",
-		"DELETE PRODUCT FROM BASKET",
+		"Failed to execute: 'delete item from basket'",
 		basketItem,
 	);
 };
@@ -74,7 +70,7 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		POSTProductURL,
 		"POST",
 		token,
-		"POST NEW BOOK",
+		"Failed to execute: 'post new product'",
 		payload,
 	);
 }
@@ -88,7 +84,7 @@ export async function postReview(
 		POSTReviewURL(productId),
 		"POST",
 		token,
-		"POST NEW REVIEW",
+		"Failed to execute: 'post review'",
 		payload,
 	);
 }
@@ -98,7 +94,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
 		GETOrdersURL(userId),
 		"GET",
 		"",
-		"GET ORDERS",
+		"Failed to execute: 'get orders'",
 		undefined,
 	);
 	if (!response) {
@@ -108,29 +104,13 @@ export async function getOrders(userId: string): Promise<Order[]> {
 }
 
 export const fetchBasket = (basketId: string) => {
-	return fetch(GETBasketURL(basketId), {
-		method: "GET",
-		mode: "cors",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
-			}
-			return res.json() as Promise<Basket>;
-		})
-		.then((data: Basket) => {
-			return data;
-		})
-		.catch((err) => {
-			console.error(
-				`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
-				err,
-			);
-			throw err;
-		});
+	return sendFetch<Basket>(
+		GETBasketURL(basketId),
+		"GET",
+		"",
+		`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
+		undefined,
+	);
 };
 
 export const updateBasket = (
@@ -138,29 +118,11 @@ export const updateBasket = (
 	userId: string,
 	token: string,
 ) => {
-	return fetch(PUTUpdateBasketURL(guestId), {
-		method: "PUT",
-		mode: "cors",
-		headers: {
-			Authorization: `Bearer ${token}`,
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({ userId: userId }),
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
-			}
-			return res.json() as Promise<Basket>;
-		})
-		.then((data: Basket) => {
-			return data;
-		})
-		.catch((err: Error) => {
-			console.error(
-				`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
-				err,
-			);
-			throw err;
-		});
+	return sendFetch(
+		PUTUpdateBasketURL(guestId),
+		"PUT",
+		token,
+		`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
+		{ userId: userId },
+	);
 };
