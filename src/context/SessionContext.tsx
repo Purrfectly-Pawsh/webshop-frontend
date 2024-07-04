@@ -8,7 +8,7 @@ import { deleteItemFromBasket, fetchBasket, updateBasket } from "../utils/api";
 interface SessionContextType {
 	basketId: string;
 	basket: Basket;
-	removeItemFrombasket: (itemId: BasketItem, basketId: string) => void;
+	removeItemFromBasket: (itemId: BasketItem, basketId: string) => void;
 	signinRedirect: () => Promise<void>;
 	signoutRedirect: () => Promise<void>;
 	isLoading: boolean;
@@ -29,6 +29,7 @@ interface User {
 	roles: string[];
 	isAdmin: boolean;
 	isUser: boolean;
+	token: string;
 }
 
 const guest = {
@@ -36,12 +37,13 @@ const guest = {
 	roles: [],
 	isAdmin: false,
 	isUser: false,
+	token: "",
 };
 
 export const SessionContext = createContext<SessionContextType>({
 	basketId: "",
 	basket: { totalPrice: 0, basketItems: [] },
-	removeItemFrombasket: () => {},
+	removeItemFromBasket: () => {},
 	signinRedirect: async () => {},
 	signoutRedirect: async () => {},
 	isLoading: false,
@@ -79,6 +81,7 @@ export const SessionContextProvider = ({
 						decoded.resource_access.purrfectly_pawsh.roles.includes("ADMIN"),
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
+					token: auth.user.access_token,
 				};
 				setUser(user);
 				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
@@ -126,7 +129,7 @@ export const SessionContextProvider = ({
 				...auth,
 				basketId,
 				basket,
-				removeItemFrombasket: removeItemFromBasket,
+				removeItemFromBasket,
 				user,
 			}}
 		>

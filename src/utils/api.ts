@@ -1,8 +1,9 @@
-import { Basket, BasketItem } from "./types";
+import { Basket, BasketItem, Product } from "./types";
 import {
 	DELETEProductFromBasketURL,
 	GETBasketURL,
 	POSTProductToBasketURL,
+	POSTProductURL,
 } from "./urls";
 
 import { PUTUpdateBasketURL } from "./urls";
@@ -118,3 +119,29 @@ export const deleteItemFromBasket = async (
 			throw err;
 		});
 };
+
+export async function postProduct(payload: Omit<Product, "id">, token: string) {
+	const response = await fetch(POSTProductURL, {
+		method: "POST",
+		headers: {
+			"Content-Type": "application/json",
+			Authorization: `Bearer ${token}`,
+		},
+		body: JSON.stringify(payload),
+	})
+		.then((response) => {
+			if (response.ok) {
+				return response.json() as Promise<Product>;
+			}
+		})
+		.then((data) => {
+			return data
+		})
+		.catch((error) => {
+			console.error(
+				"There was a problem with the fetch operation [POST NEW BOOK]:",
+				error,
+			);
+		});
+	return response;
+}

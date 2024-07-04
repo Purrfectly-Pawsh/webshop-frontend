@@ -5,6 +5,7 @@ export const keycloakClientID = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 
 export const GETProductsURL = `${baseURL}/products`;
 export const GETProductURL = `${baseURL}/products/`;
+export const POSTProductURL = `${baseURL}/products`;
 export const GETProductsByKeywordURL = `${baseURL}/products/search?keyword=`;
 export const GETReviewsForProductURL = (productId: string) =>
 	`${baseURL}/products/${productId}/reviews`;
@@ -17,3 +18,4 @@ export const DELETEProductFromBasketURL = (basketId: string, itemId: string) =>
 export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;
 export const PUTUpdateBasketURL = (guestBasketId: string) =>
 	`${baseURL}/baskets/${guestBasketId}`;
+
