@@ -1,4 +1,8 @@
-import { type LoaderFunctionArgs, useLoaderData, useNavigate } from "react-router-dom";
+import {
+	type LoaderFunctionArgs,
+	useLoaderData,
+	useNavigate,
+} from "react-router-dom";
 import type { Product } from "../utils/types";
 import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 import { useContext } from "react";
@@ -45,7 +49,11 @@ export default function ProductsPage() {
 		<div className="mx-16">
 			{user.isAdmin && (
 				<div className="w-full flex justify-end">
-					<button type="button" className="btn bg-btnBlue mt-8 text-lg h-16" onClick={() => navigate("create")}>
+					<button
+						type="button"
+						className="btn bg-btnBlue mt-8 text-lg h-16"
+						onClick={() => navigate("create")}
+					>
 						Create new product
 					</button>
 				</div>
@@ -73,7 +81,7 @@ export default function ProductsPage() {
 							<p>{product.producer}</p>
 							<div className="card-actions justify-end">
 								<div className="flex items-center justify-between w-full">
-									<h2 className="font-bold text-xl">{product.price} $</h2>
+									<h2 className="font-bold text-xl">{product.price} €</h2>
 									<button
 										type="button"
 										disabled={user.isAdmin}

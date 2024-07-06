@@ -45,7 +45,7 @@ export default function BasketPage() {
 							<div>
 								<div className="px-4 space-y-6 flex flex-col items-center">
 									<h1 className="text-2xl font-semibold">
-										$ {basketItem.unitPrice}
+										{basketItem.unitPrice} €
 									</h1>
 									<button
 										type="button"
@@ -64,12 +64,12 @@ export default function BasketPage() {
 					<h1 className="text-4xl font-bold m-4 text-center">Basket</h1>
 					<div className="flex font-medium text-xl justify-between my-4">
 						<span>Items:</span>
-						<span>$ {basket.totalPrice.toFixed(2)}</span>
+						<span>{basket.totalPrice.toFixed(2)} €</span>
 					</div>
 					<div className="flex-grow border-t-2 rounded-2xl border-black mt-28" />
 					<div className="flex justify-between text-2xl font-bold my-4">
 						<span>Total:</span>
-						<span>$ {basket.totalPrice.toFixed(2)}</span>
+						<span>{basket.totalPrice.toFixed(2)} €</span>
 					</div>
 					<div className="flex justify-center py-10">
 						<button
