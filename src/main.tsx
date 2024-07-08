@@ -14,33 +14,44 @@ import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
 import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
+import ErrorPage from "./routes/ErrorPage";
 
 const router = createBrowserRouter([
 	{
 		path: "/",
 		element: <RootPage />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "products/search?/",
 				loader: ProductsPageLoader,
 				element: <ProductsPage />,
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: "products/create",
-				element: 
-				<RequireAdmin>
-					<CreateProductPage />
-				</RequireAdmin>,
+				element: (
+					<RequireAdmin>
+						<CreateProductPage />
+					</RequireAdmin>
+				),
 				loader: ProductDetailsPageLoader,
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: "product/:id",
 				element: <ProductDetailsPage />,
 				loader: ProductDetailsPageLoader,
+				errorElement: <ErrorPage />,
 			},
 			{
 				path: "basket",
 				element: <BasketPage />,
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: "*",
+				element: <ErrorPage />,
 			},
 		],
 	},

@@ -91,7 +91,7 @@ export default function ProductDetailsPage() {
 					</div>
 					<div className="w-1/3 flex-col bg-secondary rounded-2xl flex items-center border-2 border-gray-400">
 						<div className="p-4 space-y-6">
-							<p className="text-2xl font-bold ">${product.price}</p>
+							<p className="text-2xl font-bold ">{product.price} €</p>
 							<h2 className="text-2xl font-medium">{product.producer}</h2>
 							<p>{product.description}</p>
 						</div>
