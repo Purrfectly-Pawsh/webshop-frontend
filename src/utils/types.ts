@@ -30,18 +30,38 @@ export interface Review {
 	date: string;
 }
 
+export interface Address {
+	city: string;
+    country: string;
+    line1: string;
+    line2: string | null;
+    postal_code: string;
+    state: string | null;
+}
+
 export interface OrderProduct {
 	id: string;
 	description: string;
 	quantity: number;
 	price: number;
+	imageUrl: string;
+}
+
+export interface UnparsedOrder {
+	id: string;
+	userId: string;
+	email: string;
+	address: string;
+	invoiceUrl: string;
+	totalCost: string;
+	products: OrderProduct[];
 }
 
 export interface Order {
 	id: string;
 	userId: string;
 	email: string;
-	address: string;
+	address: Address;
 	invoiceUrl: string;
 	totalCost: string;
 	products: OrderProduct[];

@@ -4,6 +4,7 @@ import CategoryMenu from "../components/CategoryMenu";
 import Footer from "../components/Footer";
 
 export default function RootPage() {
+
 	return (
 		<div className="flex flex-col h-screen w-screen">
 			<Navbar />

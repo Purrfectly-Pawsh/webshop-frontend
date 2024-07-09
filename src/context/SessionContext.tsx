@@ -30,6 +30,7 @@ interface User {
 	isAdmin: boolean;
 	isUser: boolean;
 	token: string;
+	name: string;
 }
 
 const guest = {
@@ -38,6 +39,7 @@ const guest = {
 	isAdmin: false,
 	isUser: false,
 	token: "",
+	name: "Guest"
 };
 
 export const SessionContext = createContext<SessionContextType>({
@@ -82,9 +84,9 @@ export const SessionContextProvider = ({
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 					token: auth.user.access_token,
+					name: auth.user.profile.name? auth.user.profile.name: "",
 				};
 				setUser(user);
-				console.log("LOGGED IN    ", "SUB: ", decoded.sub);
 				if (basket.basketItems.length !== 0) {
 					updateBasket(basketId, decoded.sub, user.token).then((bask) =>
 						setBasket(bask),

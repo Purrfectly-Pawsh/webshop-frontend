@@ -1,4 +1,12 @@
-import type { Basket, BasketItem, Order, Product, Review } from "./types";
+import type {
+	Address,
+	Basket,
+	BasketItem,
+	Order,
+	Product,
+	Review,
+	UnparsedOrder,
+} from "./types";
 import {
 	DELETEProductFromBasketURL,
 	GETOrdersURL,
@@ -90,17 +98,50 @@ export async function postReview(
 }
 
 export async function getOrders(userId: string): Promise<Order[]> {
-	const response = await sendFetch<Order[]>(
+	let response = await sendFetch<UnparsedOrder[]>(
 		GETOrdersURL(userId),
 		"GET",
 		"",
 		"Failed to execute: 'get orders'",
 		undefined,
 	);
+
 	if (!response) {
-		return [];
+		response = []
 	}
-	return response;
+
+	const parsedOrders: Order[] = [];
+
+	for (const order of response) {
+		const stringAddress = order.address;
+		const jsonAddress = stringAddress.match(/{[^}]*}/)?.[0];
+
+		if (jsonAddress) {
+			const addressObject = JSON.parse(jsonAddress);
+
+			const parsedAddress: Address = {
+				city: addressObject.city,
+				country: addressObject.country,
+				line1: addressObject.line1,
+				line2: addressObject.line2,
+				postal_code: addressObject.postal_code,
+				state: addressObject.state,
+			};
+
+			const parsedOrder: Order = {
+				id: order.id,
+				userId: order.userId,
+				email: order.email,
+				address: parsedAddress,
+				invoiceUrl: order.invoiceUrl,
+				totalCost: order.totalCost,
+				products: order.products,
+			};
+			parsedOrders.push(parsedOrder);
+		}
+	}
+
+	return parsedOrders;
 }
 
 export const fetchBasket = (basketId: string) => {
