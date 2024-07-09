@@ -23,7 +23,7 @@ export default function OrderItem({ product }: OrderItemProps) {
 		};
 
 		postReview(product.id, review, user.token);
-		
+
 		setTitle("");
 		setContent("");
 		setRating(5);
