@@ -42,7 +42,7 @@ function sendFetch<ResponseType>(
 				if (responseHasBody) {
 					return response.json() as Promise<ResponseType>
 				}
-				return {}
+				return {} as Promise<ResponseType>
 			}
 			throw new Error("Network response was not 'ok'");
 		})
