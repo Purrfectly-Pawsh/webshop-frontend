@@ -1,4 +1,4 @@
-import { type FormEvent, useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { postReview } from "../utils/api";
 import type { OrderProduct, Review } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
