@@ -11,7 +11,7 @@ export const GETProductsByKeywordURL = `${baseURL}/products/search?keyword=`;
 export const GETReviewsForProductURL = (productId: string) =>
 	`${baseURL}/products/${productId}/reviews`;
 export const POSTReviewURL = (productId: string) =>
-	`${baseURL}/products/${productId}/reviews`; 
+	`${baseURL}/products/${productId}/reviews`;
 
 export const GETBasketURL = (basketId: string) =>
 	`${baseURL}/baskets/${basketId}`;
@@ -23,3 +23,5 @@ export const keycloakServerURL = `${keycloakURL}/realms/${keycloakRealm}`;
 export const PUTUpdateBasketURL = (guestBasketId: string) =>
 	`${baseURL}/baskets/${guestBasketId}`;
 
+export const GETOrdersURL = (userId: string) =>
+	`localhost:8085/v1/order/${userId}`;

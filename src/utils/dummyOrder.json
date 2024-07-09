@@ -1,0 +1,30 @@
+[
+	{
+		"id": "7c480fea-c357-4aaa-9d05-025d64689d00",
+		"userId": "276b213d-ab77-4139-aede-0d3379957852",
+		"email": "john@gmail.com",
+		"address": "<com.stripe.model.Address@1845440404 id=> JSON: {\n  \"city\": \"Berlin\",\n  \"country\": \"DE\",\n  \"line1\": \"Wilhelminenhofstraße 12\",\n  \"line2\": null,\n  \"postal_code\": \"12459\",\n  \"state\": null\n}",
+		"invoiceUrl": "https://pay.stripe.com/invoice/acct_1PSaJ3AkT1tP4rUO/test_YWNjdF8xUFNhSjNBa1QxdFA0clVPLF9RUGJZQ1lLNUlEejZHcmxoQUN5UDR1a29lMHpyT3FELDExMDYyNzU2Ng0200xGS7b8Gy/pdf?s=ap",
+		"totalCost": "7072",
+		"products": [
+			{
+				"id": "48ccff97-8911-442d-ba68-e548260d2b53",
+				"description": "Hund Junior 6x800g Dose mit Kalb und Süßkartoffel",
+				"quantity": 1,
+				"price": 17.94
+			},
+			{
+				"id": "9837ab33-42e0-4cdf-823c-735f84d2d003",
+				"description": "feine Kauknochen 2x10cm (120g)",
+				"quantity": 1,
+				"price": 2.79
+			},
+			{
+				"id": "ab138db5-1b19-4cd7-99db-bc4a87a85166",
+				"description": "Trockenfutter Junior Mini / Medium 8kg mit Huhn und Truthahn",
+				"quantity": 1,
+				"price": 49.99
+			}
+		]
+	}
+]

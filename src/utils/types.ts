@@ -30,4 +30,21 @@ export interface Review {
 	date: string;
 }
 
+export interface OrderProduct {
+	id: string;
+	description: string;
+	quantity: number;
+	price: number;
+}
+
+export interface Order {
+	id: string;
+	userId: string;
+	email: string;
+	address: string;
+	invoiceUrl: string;
+	totalCost: string;
+	products: OrderProduct[];
+}
+
 export const Categories = ["DOG", "CAT", "BIRD"];

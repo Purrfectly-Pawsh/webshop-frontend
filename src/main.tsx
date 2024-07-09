@@ -15,6 +15,7 @@ import { AuthProvider } from "react-oidc-context";
 import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
 import ErrorPage from "./routes/ErrorPage";
+import OrdersPage from "./routes/OrdersPage";
 
 const router = createBrowserRouter([
 	{
@@ -48,6 +49,11 @@ const router = createBrowserRouter([
 				path: "basket",
 				element: <BasketPage />,
 				errorElement: <ErrorPage />,
+			},
+			{
+				path: "orders",
+				errorElement: <ErrorPage />,
+				element: <OrdersPage />,
 			},
 			{
 				path: "*",
