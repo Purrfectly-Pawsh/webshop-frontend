@@ -15,6 +15,7 @@ import {
 	POSTProductURL,
 	POSTReviewURL,
 	PUTUpdateBasketURL,
+	DELETEProductURL,
 } from "./urls";
 
 function sendFetch<ResponseType>(
@@ -22,6 +23,7 @@ function sendFetch<ResponseType>(
 	method: "GET" | "POST" | "PUT" | "DELETE",
 	token: string,
 	errMsg: string,
+	responseHasBody: boolean,
 	payload?: object,
 ) {
 	const requestOptions: RequestInit = {
@@ -37,7 +39,10 @@ function sendFetch<ResponseType>(
 	const response = fetch(url, requestOptions)
 		.then((response) => {
 			if (response.ok) {
-				return response.json() as Promise<ResponseType>;
+				if (responseHasBody) {
+					return response.json() as Promise<ResponseType>
+				}
+				return {}
 			}
 			throw new Error("Network response was not 'ok'");
 		})
@@ -56,6 +61,7 @@ export const postItemToBasket = async (basketId: string, itemId: string) => {
 		"POST",
 		"",
 		"Failed to execute: 'post item to basket'",
+		true,
 		{ productId: itemId, quantity: 1 },
 	);
 };
@@ -69,6 +75,7 @@ export const deleteItemFromBasket = async (
 		"DELETE",
 		"",
 		"Failed to execute: 'delete item from basket'",
+		true,
 		basketItem,
 	);
 };
@@ -79,8 +86,25 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		"POST",
 		token,
 		"Failed to execute: 'post new product'",
+		true,
 		payload,
 	);
+}
+
+export async function deleteProduct(productId: string, token: string) {
+	const response = await sendFetch(
+		DELETEProductURL(productId),
+		"DELETE",
+		token,
+		"Failed to execute: 'delete product'",
+		false,
+		undefined,
+	);
+
+	if (response) {
+		return true;
+	}
+	return false;
 }
 
 export async function postReview(
@@ -93,6 +117,7 @@ export async function postReview(
 		"POST",
 		token,
 		"Failed to execute: 'post review'",
+		true,
 		payload,
 	);
 }
@@ -103,6 +128,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
 		"GET",
 		"",
 		"Failed to execute: 'get orders'",
+		true,
 		undefined,
 	);
 
@@ -150,6 +176,7 @@ export const fetchBasket = (basketId: string) => {
 		"GET",
 		"",
 		`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
+		true,
 		undefined,
 	);
 };
@@ -164,6 +191,7 @@ export const updateBasket = (
 		"PUT",
 		token,
 		`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
+		true,
 		{ userId: userId },
 	);
 };

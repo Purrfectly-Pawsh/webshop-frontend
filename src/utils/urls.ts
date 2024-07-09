@@ -6,6 +6,8 @@ export const keycloakClientID = import.meta.env.VITE_KEYCLOAK_CLIENT_ID;
 export const GETProductsURL = `${baseURL}/products`;
 export const GETProductURL = `${baseURL}/products/`;
 export const POSTProductURL = `${baseURL}/products`;
+export const DELETEProductURL = (productId: string) =>
+	`${baseURL}/products/${productId}`;
 export const GETProductsByKeywordURL = `${baseURL}/products/search?keyword=`;
 
 export const GETReviewsForProductURL = (productId: string) =>
