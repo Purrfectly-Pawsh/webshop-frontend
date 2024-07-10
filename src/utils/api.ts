@@ -1,4 +1,4 @@
-import type { Basket, BasketItem } from "./types";
+import type { Basket, BasketItem, Product } from "./types";
 import {
 	DELETEProductFromBasketURL,
 	GETBasketURL,
@@ -128,7 +128,7 @@ export const postCheckout = async (basket: Basket, id: string) => {
 		headers: {
 			"Content-Type": "application/json",
 		},
-		body: JSON.stringify({userId: id, ...basket}),
+		body: JSON.stringify({ userId: id, ...basket }),
 	})
 		.then((res) => {
 			if (!res.ok) {
