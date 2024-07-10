@@ -1,8 +1,9 @@
-import { Basket, BasketItem, Product } from "./types";
+import type { Basket, BasketItem } from "./types";
 import {
 	DELETEProductFromBasketURL,
 	GETBasketURL,
 	POSTProductToBasketURL,
+	POSTCheckoutURL,
 	POSTProductURL,
 } from "./urls";
 
@@ -110,6 +111,30 @@ export const deleteItemFromBasket = async (
 				throw new Error("Network response was not ok!");
 			}
 			return res.json() as Promise<Basket>;
+		})
+		.then((data) => {
+			return data;
+		})
+		.catch((err) => {
+			console.error(err);
+			throw err;
+		});
+};
+
+export const postCheckout = async (basket: Basket, id: string) => {
+	return await fetch(POSTCheckoutURL, {
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({userId: id, ...basket}),
+	})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error("Network response was not ok!");
+			}
+			return res.json();
 		})
 		.then((data) => {
 			return data;
