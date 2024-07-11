@@ -41,6 +41,7 @@ export interface Address {
 
 export interface OrderProduct {
 	id: string;
+	productId: string;
 	description: string;
 	quantity: number;
 	price: number;

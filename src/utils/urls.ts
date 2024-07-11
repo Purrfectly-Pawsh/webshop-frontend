@@ -25,4 +25,4 @@ export const PUTUpdateBasketURL = (guestBasketId: string) =>
 export const POSTCheckoutURL = `http://localhost:8084/v1/checkout/create-checkout-session`;
 
 export const GETOrdersURL = (userId: string) =>
-	`localhost:8080/orders/${userId}`;
+	`${baseURL}/orders/${userId}`;

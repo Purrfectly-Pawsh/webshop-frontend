@@ -84,7 +84,7 @@ export const SessionContextProvider = ({
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 					token: auth.user.access_token,
-					name: auth.user.profile.name ? auth.user.profile.name : "",
+					name: auth.user.profile.preferred_username ? auth.user.profile.preferred_username : "Unknown",
 				};
 				setUser(user);
 				if (basket.basketItems.length !== 0) {

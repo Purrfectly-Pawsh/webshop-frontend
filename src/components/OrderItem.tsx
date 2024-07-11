@@ -19,10 +19,10 @@ export default function OrderItem({ product }: OrderItemProps) {
 			content: content,
 			rating: rating,
 			title: title,
-			date: "",
+			date: new Date().toISOString(),
 		};
 
-		postReview(product.id, review, user.token);
+		postReview(product.productId, review, user.token);
 
 		setTitle("");
 		setContent("");
