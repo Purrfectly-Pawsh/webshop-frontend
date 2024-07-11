@@ -39,7 +39,7 @@ const guest = {
 	isAdmin: false,
 	isUser: false,
 	token: "",
-	name: "Guest"
+	name: "Guest",
 };
 
 export const SessionContext = createContext<SessionContextType>({
@@ -84,12 +84,12 @@ export const SessionContextProvider = ({
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 					token: auth.user.access_token,
-					name: auth.user.profile.name? auth.user.profile.name: "",
+					name: auth.user.profile.name ? auth.user.profile.name : "",
 				};
 				setUser(user);
 				if (basket.basketItems.length !== 0) {
 					updateBasket(basketId, decoded.sub, user.token).then((bask) =>
-						setBasket(bask),
+						setBasket(bask as Basket),
 					);
 				}
 				setBasketId(decoded.sub);
@@ -115,7 +115,7 @@ export const SessionContextProvider = ({
 
 	useEffect(() => {
 		fetchBasket(basketId)
-			.then((retrievedBasket: Basket) => setBasket(retrievedBasket))
+			.then((retrievedBasket) => setBasket(retrievedBasket as Basket))
 			.catch((err: Error) => {
 				console.log(err.message);
 				throw err;
@@ -124,7 +124,7 @@ export const SessionContextProvider = ({
 
 	const removeItemFromBasket = async (itemId: BasketItem, basketId: string) => {
 		const basketUpdated = await deleteItemFromBasket(basketId, itemId);
-		setBasket(basketUpdated);
+		setBasket(basketUpdated as Basket);
 	};
 
 	return (
