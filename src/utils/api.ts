@@ -13,6 +13,7 @@ import {
 	GETBasketURL,
 	POSTProductToBasketURL,
 	POSTProductURL,
+	POSTCheckoutURL,
 	POSTReviewURL,
 	PUTUpdateBasketURL,
 	DELETEProductURL,
@@ -42,9 +43,9 @@ function sendFetch<ResponseType>(
 		.then((response) => {
 			if (response.ok) {
 				if (responseHasBody) {
-					return response.json() as Promise<ResponseType>
+					return response.json() as Promise<ResponseType>;
 				}
-				return {} as Promise<ResponseType>
+				return {} as Promise<ResponseType>;
 			}
 			throw new Error("Network response was not 'ok'");
 		})
@@ -82,17 +83,6 @@ export const deleteItemFromBasket = async (
 	);
 };
 
-export async function getProduct(productId: string) {
-	return await sendFetch<Product>(
-		GETProductURL(productId),
-		"GET",
-		"",
-		`Failed to execute: 'get product ${productId}'`,
-		true,
-		undefined,
-	);
-}
-
 export async function postProduct(payload: Omit<Product, "id">, token: string) {
 	return await sendFetch<Product>(
 		POSTProductURL,
@@ -102,7 +92,7 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		true,
 		payload,
 	);
-}
+};
 
 export async function putProduct(payload: Product, token: string) {
 	return await sendFetch<Product>(
@@ -113,23 +103,18 @@ export async function putProduct(payload: Product, token: string) {
 		true,
 		payload,
 	);
-}
+};
 
-export async function deleteProduct(productId: string, token: string) {
-	const response = await sendFetch(
-		DELETEProductURL(productId),
-		"DELETE",
-		token,
-		"Failed to execute: 'delete product'",
-		false,
+export async function getProduct(productId: string) {
+	return await sendFetch<Product>(
+		GETProductURL(productId),
+		"GET",
+		"",
+		`Failed to execute: 'get product ${productId}'`,
+		true,
 		undefined,
 	);
-
-	if (response) {
-		return true;
-	}
-	return false;
-}
+};
 
 export async function postReview(
 	productId: string,
@@ -144,7 +129,7 @@ export async function postReview(
 		true,
 		payload,
 	);
-}
+};
 
 export async function getOrders(userId: string): Promise<Order[]> {
 	let response = await sendFetch<UnparsedOrder[]>(
@@ -157,7 +142,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
 	);
 
 	if (!response) {
-		response = []
+		response = [];
 	}
 
 	const parsedOrders: Order[] = [];
@@ -205,6 +190,30 @@ export const fetchBasket = (basketId: string) => {
 	);
 };
 
+export const postCheckout = async (basket: Basket, id: string) => {
+	return await fetch(POSTCheckoutURL, {
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ userId: id, ...basket }),
+	})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error("Network response was not ok!");
+			}
+			return res.json();
+		})
+		.then((data) => {
+			return data;
+		})
+		.catch((err) => {
+			console.error(err);
+			throw err;
+		});
+};
+
 export const updateBasket = (
 	guestId: string,
 	userId: string,
@@ -219,3 +228,19 @@ export const updateBasket = (
 		{ userId: userId },
 	);
 };
+
+export async function deleteProduct(productId: string, token: string) {
+	const response = await sendFetch(
+		DELETEProductURL(productId),
+		"DELETE",
+		token,
+		"Failed to execute: 'delete product'",
+		false,
+		undefined,
+	);
+
+	if (response) {
+		return true;
+	}
+	return false;
+}

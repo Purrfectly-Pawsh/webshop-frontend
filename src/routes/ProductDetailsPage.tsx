@@ -113,26 +113,26 @@ export default function ProductDetailsPage() {
 							{!user.isAdmin && (
 								<div>
 									<button
-										type="button"
-										disabled={user.isAdmin}
-										className="btn bg-btnBlue"
-										onClick={() => postItemToBasket(basketId, product.id)}
-									>
-										<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
-										Add to basket
-									</button>
-									<button
-										type="button"
-										className="btn bg-btnBlue"
-										disabled={user.isAdmin}
-									>
-										<img
-											alt="Heart"
-											src="/heart-svgrepo-com.svg"
-											className="w-10 h-10"
-										/>
-										Remember
-									</button>
+												type="button"
+												disabled={user.isAdmin}
+												className="btn bg-btnBlue"
+												onClick={() => postItemToBasket(basketId, product.id)}
+											>
+												<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
+												Add to basket
+											</button>
+											<button
+												type="button"
+												className="btn bg-btnBlue"
+												disabled={user.isAdmin}
+											>
+												<img
+													alt="Heart"
+													src="/heart-svgrepo-com.svg"
+													className="w-10 h-10"
+												/>
+												Remember
+											</button>
 								</div>
 							)}
 							{user.isAdmin && (
@@ -147,11 +147,14 @@ export default function ProductDetailsPage() {
 									<button
 										type="button"
 										className="btn btn-error"
-										onClick={() =>
-											document
-												.getElementById(`delete_modal_${product.id}`)
-												.showModal()
-										}
+										onClick={() => {
+											const productToDelete = document.getElementById(
+												`delete_modal_${product.id}`,
+											);
+											if (productToDelete !== null) {
+												(productToDelete as HTMLDialogElement).showModal();
+											}
+										}}
 									>
 										Delete
 									</button>

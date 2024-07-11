@@ -90,21 +90,24 @@ export default function ProductsPage() {
 									<h2 className="font-bold text-xl">{product.price} €</h2>
 									{user.isAdmin && (
 										<div className="flex gap-2">
-											<button
-												type="button"
-												className="btn bg-btnBlue"
-												onClick={() => navigate(`/product/${product.id}/edit`)}
-											>
-												Edit
-											</button>
+										<button
+											type="button"
+											className="btn bg-btnBlue"
+											onClick={() => navigate(`/product/${product.id}/edit`)}
+										>
+											Edit
+										</button>
 											<button
 												type="button"
 												className="btn btn-error"
-												onClick={() =>
-													document
-														.getElementById(`delete_modal_${product.id}`)
-														.showModal()
-												}
+												onClick={() => {
+													const productToDelete = document.getElementById(
+														`delete_modal_${product.id}`,
+													);
+													if (productToDelete !== null) {
+														(productToDelete as HTMLDialogElement).showModal();
+													}
+												}}
 											>
 												Delete
 											</button>
