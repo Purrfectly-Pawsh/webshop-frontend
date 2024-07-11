@@ -2,10 +2,20 @@ import { useContext } from "react";
 import type { BasketItem } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
 import noImage from "../../public/no-image.svg";
+import { postCheckout } from "../utils/api";
+
+interface SessionResponse {
+	sessionUrl: string;
+}
 
 export default function BasketPage() {
 	const { basketId, basket, removeItemFromBasket, user } =
 		useContext(SessionContext);
+
+	const handleRedirect = async () => {
+		const response: SessionResponse = await postCheckout(basket, basketId);
+		window.location.href = response.sessionUrl;
+	};
 
 	return (
 		<div className="bg-primary rounded-2xl m-40 border-4 border-gray-400 p-10">
@@ -74,6 +84,7 @@ export default function BasketPage() {
 					<div className="flex justify-center py-10">
 						<button
 							type="button"
+							onClick={handleRedirect}
 							className="btn bg-btnBlue text-2xl px-4"
 							disabled={user.isAdmin}
 						>

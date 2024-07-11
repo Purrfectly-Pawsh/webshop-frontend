@@ -13,6 +13,7 @@ import {
 	GETBasketURL,
 	POSTProductToBasketURL,
 	POSTProductURL,
+	POSTCheckoutURL,
 	POSTReviewURL,
 	PUTUpdateBasketURL,
 } from "./urls";
@@ -107,7 +108,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
 	);
 
 	if (!response) {
-		response = []
+		response = [];
 	}
 
 	const parsedOrders: Order[] = [];
@@ -152,6 +153,30 @@ export const fetchBasket = (basketId: string) => {
 		`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
 		undefined,
 	);
+};
+
+export const postCheckout = async (basket: Basket, id: string) => {
+	return await fetch(POSTCheckoutURL, {
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ userId: id, ...basket }),
+	})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error("Network response was not ok!");
+			}
+			return res.json();
+		})
+		.then((data) => {
+			return data;
+		})
+		.catch((err) => {
+			console.error(err);
+			throw err;
+		});
 };
 
 export const updateBasket = (
