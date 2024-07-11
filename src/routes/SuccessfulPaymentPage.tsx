@@ -1,4 +1,8 @@
+import { useNavigate } from "react-router-dom";
+
 const SuccessfulPaymentPage = () => {
+	const navigate = useNavigate();
+
 	return (
 		<div className="flex flex-col items-center justify-center min-h-screen">
 			<div className="bg-secondary rounded-2xl border-4 border-gray-400 w-4/5 md:w-1/2 mx-auto p-16 text-center">
@@ -14,7 +18,11 @@ const SuccessfulPaymentPage = () => {
 					Thank you for choosing our shop for your purchase. Your order has been
 					placed successfully.
 				</p>
-				<button type="button" className="btn btn-lg bg-btnBlue">
+				<button
+					type="button"
+					className="btn btn-lg bg-btnBlue"
+					onClick={() => navigate("/orders")}
+				>
 					Go to Orders
 				</button>
 			</div>
