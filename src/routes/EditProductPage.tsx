@@ -8,7 +8,7 @@ export const EditProductPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
 	if (params.id === undefined) {
-		throw new Error("What");
+		throw new Error("It looks like that route doesn't exist.")
 	}
 	const response = await getProduct(params.id);
 	return response;

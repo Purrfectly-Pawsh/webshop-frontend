@@ -14,7 +14,7 @@ export const ProductDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
 	if (params.id === undefined) {
-		throw new Error("");
+		throw new Error("It looks like that route doesn't exist.")
 	}
 	const response = fetch(GETProductURL(params.id), {
 		method: "GET",
@@ -35,7 +35,7 @@ export const ProductDetailsPageLoader = async ({
 		})
 		.catch((error) => {
 			console.error(`Fetching [GET PRODUCT ${params.id}] failed:\n`, error);
-			return {};
+			throw new Error("Sadly, we don't have this product.")
 		});
 
 	return response;
