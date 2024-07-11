@@ -1,124 +1,158 @@
-import type { Basket, BasketItem, Product } from "./types";
+import type {
+	Address,
+	Basket,
+	BasketItem,
+	Order,
+	Product,
+	Review,
+	UnparsedOrder,
+} from "./types";
 import {
 	DELETEProductFromBasketURL,
+	GETOrdersURL,
 	GETBasketURL,
 	POSTProductToBasketURL,
-	POSTCheckoutURL,
 	POSTProductURL,
+	POSTCheckoutURL,
+	POSTReviewURL,
+	PUTUpdateBasketURL,
 } from "./urls";
 
-import { PUTUpdateBasketURL } from "./urls";
-
-export const updateBasket = (
-	guestId: string,
-	userId: string,
+function sendFetch<ResponseType>(
+	url: string,
+	method: "GET" | "POST" | "PUT" | "DELETE",
 	token: string,
-) => {
-	return fetch(PUTUpdateBasketURL(guestId), {
-		method: "PUT",
+	errMsg: string,
+	payload?: object,
+) {
+	const requestOptions: RequestInit = {
+		method,
 		mode: "cors",
 		headers: {
-			Authorization: `Bearer ${token}`,
 			"Content-Type": "application/json",
+			...(token !== "" ? { Authorization: `Bearer ${token}` } : {}),
 		},
-		body: JSON.stringify({ userId: userId }),
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
-			}
-			return res.json() as Promise<Basket>;
-		})
-		.then((data: Basket) => {
-			return data;
-		})
-		.catch((err: Error) => {
-			console.error(
-				`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
-				err,
-			);
-			throw err;
-		});
-};
+		...(method !== "GET" && payload ? { body: JSON.stringify(payload) } : {}),
+	};
 
-export const fetchBasket = (basketId: string) => {
-	return fetch(GETBasketURL(basketId), {
-		method: "GET",
-		mode: "cors",
-		headers: {
-			"Content-Type": "application/json",
-		},
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
+	const response = fetch(url, requestOptions)
+		.then((response) => {
+			if (response.ok) {
+				return response.json() as Promise<ResponseType>;
 			}
-			return res.json() as Promise<Basket>;
+			throw new Error("Network response was not 'ok'");
 		})
-		.then((data: Basket) => {
+		.then((data) => {
 			return data;
 		})
-		.catch((err) => {
-			console.error(
-				`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
-				err,
-			);
-			throw err;
+		.catch((error) => {
+			console.error(errMsg, error);
 		});
-};
+	return response;
+}
 
 export const postItemToBasket = async (basketId: string, itemId: string) => {
-	await fetch(POSTProductToBasketURL(basketId), {
-		method: "POST",
-		mode: "cors",
-		headers: {
-			"Content-Type": "application/json",
-		},
-		body: JSON.stringify({
-			productId: itemId,
-			quantity: 1,
-		}),
-	})
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
-			}
-			return res;
-		})
-		.catch((err) => {
-			console.error(err);
-			throw err;
-		});
+	return await sendFetch(
+		POSTProductToBasketURL(basketId),
+		"POST",
+		"",
+		"Failed to execute: 'post item to basket'",
+		{ productId: itemId, quantity: 1 },
+	);
 };
 
 export const deleteItemFromBasket = async (
 	basketId: string,
 	basketItem: BasketItem,
 ) => {
-	return await fetch(
+	return await sendFetch<Basket>(
 		DELETEProductFromBasketURL(basketId, basketItem.basketItemId),
-		{
-			method: "DELETE",
-			mode: "cors",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(basketItem),
-		},
-	)
-		.then((res) => {
-			if (!res.ok) {
-				throw new Error("Network response was not ok!");
-			}
-			return res.json() as Promise<Basket>;
-		})
-		.then((data) => {
-			return data;
-		})
-		.catch((err) => {
-			console.error(err);
-			throw err;
-		});
+		"DELETE",
+		"",
+		"Failed to execute: 'delete item from basket'",
+		basketItem,
+	);
+};
+
+export async function postProduct(payload: Omit<Product, "id">, token: string) {
+	return await sendFetch<Product>(
+		POSTProductURL,
+		"POST",
+		token,
+		"Failed to execute: 'post new product'",
+		payload,
+	);
+}
+
+export async function postReview(
+	productId: string,
+	payload: Omit<Review, "id">,
+	token: string,
+) {
+	return await sendFetch<Review>(
+		POSTReviewURL(productId),
+		"POST",
+		token,
+		"Failed to execute: 'post review'",
+		payload,
+	);
+}
+
+export async function getOrders(userId: string): Promise<Order[]> {
+	let response = await sendFetch<UnparsedOrder[]>(
+		GETOrdersURL(userId),
+		"GET",
+		"",
+		"Failed to execute: 'get orders'",
+		undefined,
+	);
+
+	if (!response) {
+		response = [];
+	}
+
+	const parsedOrders: Order[] = [];
+
+	for (const order of response) {
+		const stringAddress = order.address;
+		const jsonAddress = stringAddress.match(/{[^}]*}/)?.[0];
+
+		if (jsonAddress) {
+			const addressObject = JSON.parse(jsonAddress);
+
+			const parsedAddress: Address = {
+				city: addressObject.city,
+				country: addressObject.country,
+				line1: addressObject.line1,
+				line2: addressObject.line2,
+				postal_code: addressObject.postal_code,
+				state: addressObject.state,
+			};
+
+			const parsedOrder: Order = {
+				id: order.id,
+				userId: order.userId,
+				email: order.email,
+				address: parsedAddress,
+				invoiceUrl: order.invoiceUrl,
+				totalCost: order.totalCost,
+				products: order.products,
+			};
+			parsedOrders.push(parsedOrder);
+		}
+	}
+
+	return parsedOrders;
+}
+
+export const fetchBasket = (basketId: string) => {
+	return sendFetch<Basket>(
+		GETBasketURL(basketId),
+		"GET",
+		"",
+		`Fetching [GET BASKET WITH BASKET_ID ${basketId}] failed:\n`,
+		undefined,
+	);
 };
 
 export const postCheckout = async (basket: Basket, id: string) => {
@@ -145,28 +179,16 @@ export const postCheckout = async (basket: Basket, id: string) => {
 		});
 };
 
-export async function postProduct(payload: Omit<Product, "id">, token: string) {
-	const response = await fetch(POSTProductURL, {
-		method: "POST",
-		headers: {
-			"Content-Type": "application/json",
-			Authorization: `Bearer ${token}`,
-		},
-		body: JSON.stringify(payload),
-	})
-		.then((response) => {
-			if (response.ok) {
-				return response.json() as Promise<Product>;
-			}
-		})
-		.then((data) => {
-			return data;
-		})
-		.catch((error) => {
-			console.error(
-				"There was a problem with the fetch operation [POST NEW BOOK]:",
-				error,
-			);
-		});
-	return response;
-}
+export const updateBasket = (
+	guestId: string,
+	userId: string,
+	token: string,
+) => {
+	return sendFetch(
+		PUTUpdateBasketURL(guestId),
+		"PUT",
+		token,
+		`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
+		{ userId: userId },
+	);
+};

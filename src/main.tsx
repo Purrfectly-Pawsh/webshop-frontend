@@ -12,11 +12,12 @@ import ProductDetailsPage, {
 import { type User, UserManager } from "oidc-client-ts";
 import { keycloakClientID, keycloakServerURL } from "./utils/urls";
 import { AuthProvider } from "react-oidc-context";
-import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
-import PaymentFailedPage from "./routes/PaymentFailedPage";
 import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
 import ErrorPage from "./routes/ErrorPage";
+import OrdersPage from "./routes/OrdersPage";
+import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
+import PaymentFailedPage from "./routes/PaymentFailedPage";
 
 const router = createBrowserRouter([
 	{
@@ -52,8 +53,9 @@ const router = createBrowserRouter([
 				errorElement: <ErrorPage />,
 			},
 			{
-				path: "*",
-				element: <ErrorPage />,
+				path: "orders",
+				errorElement: <ErrorPage />,
+				element: <OrdersPage />,
 			},
 			{
 				path: "/payment/success",
@@ -62,6 +64,10 @@ const router = createBrowserRouter([
 			{
 				path: "/payment/failed",
 				element: <PaymentFailedPage />,
+			},
+			{
+				path: "*",
+				element: <ErrorPage />,
 			},
 		],
 	},

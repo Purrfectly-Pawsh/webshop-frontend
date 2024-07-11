@@ -84,8 +84,8 @@ export default function BasketPage() {
 					<div className="flex justify-center py-10">
 						<button
 							type="button"
-							className="btn bg-btnBlue text-2xl px-4"
 							onClick={handleRedirect}
+							className="btn bg-btnBlue text-2xl px-4"
 							disabled={user.isAdmin}
 						>
 							Checkout

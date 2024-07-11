@@ -1,4 +1,4 @@
-import { type FormEvent, useState, useContext, useEffect } from "react";
+import { type FormEvent, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { postProduct } from "../utils/api";
 import { SessionContext } from "../context/SessionContext";
@@ -13,10 +13,6 @@ export default function CreateProductPage() {
 	const [imageUrl, setImageUrl] = useState<string>("");
 	const [category, setCategory] = useState<string>(Categories[0]);
 	const [producer, setProducer] = useState<string>("");
-
-	useEffect(() => {
-		console.log(category);
-	}, [category]);
 
 	async function handleSubmit(event: FormEvent) {
 		event.preventDefault();
