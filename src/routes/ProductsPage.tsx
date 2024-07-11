@@ -92,7 +92,7 @@ export default function ProductsPage() {
 										<div>
 											<button
 												type="button"
-												className="btn btn-primary bg-secondary"
+												className="btn btn-error"
 												onClick={() =>
 													document
 														.getElementById(`delete_modal_${product.id}`)
@@ -134,14 +134,16 @@ export default function ProductsPage() {
 											</dialog>
 										</div>
 									)}
-									<button
-										type="button"
-										disabled={user.isAdmin}
-										className="btn btn-primary bg-secondary"
-										onClick={() => postItemToBasket(basketId, product.id)}
-									>
-										Buy
-									</button>
+									{!user.isAdmin && (
+										<button
+											type="button"
+											disabled={user.isAdmin}
+											className="btn btn-primary bg-secondary"
+											onClick={() => postItemToBasket(basketId, product.id)}
+										>
+											Buy
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
