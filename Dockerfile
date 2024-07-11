@@ -4,8 +4,8 @@ COPY . ./
 RUN npm install
 RUN npm run build 
 
-FROM nginx:alpine
-COPY nginx.conf /etc/nginx/conf.d/default.conf
-COPY --from=react-build /app/dist /usr/share/nginx/html
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+FROM node:18
+RUN npm install -g serve
+COPY --from=react-build /app/dist /dist
+EXPOSE 5173
+CMD serve -s dist -p 5173
