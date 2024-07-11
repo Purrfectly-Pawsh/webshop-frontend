@@ -38,7 +38,6 @@ const router = createBrowserRouter([
 						<CreateProductPage />
 					</RequireAdmin>
 				),
-				loader: ProductDetailsPageLoader,
 				errorElement: <ErrorPage />,
 			},
 			{

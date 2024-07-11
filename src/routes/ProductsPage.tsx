@@ -7,7 +7,7 @@ import type { Product } from "../utils/types";
 import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 import { useContext } from "react";
 import { SessionContext } from "../context/SessionContext";
-import { postItemToBasket } from "../utils/api";
+import { deleteProduct, postItemToBasket } from "../utils/api";
 
 export const ProductsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
@@ -44,6 +44,12 @@ export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
 	const { basketId, user } = useContext(SessionContext);
 	const navigate = useNavigate();
+
+	async function handleDeleteSubmit(productId: string) {
+		await deleteProduct(productId, user.token).then(() => {
+			navigate("/");
+		});
+	}
 
 	return (
 		<div className="mx-16">
@@ -82,14 +88,65 @@ export default function ProductsPage() {
 							<div className="card-actions justify-end">
 								<div className="flex items-center justify-between w-full">
 									<h2 className="font-bold text-xl">{product.price} €</h2>
-									<button
-										type="button"
-										disabled={user.isAdmin}
-										className="btn btn-primary bg-secondary"
-										onClick={() => postItemToBasket(basketId, product.id)}
-									>
-										Buy
-									</button>
+									{user.isAdmin && (
+										<div>
+											<button
+												type="button"
+												className="btn btn-error"
+												onClick={() => {
+													const productToDelete = document.getElementById(
+														`delete_modal_${product.id}`,
+													);
+													if (productToDelete !== null) {
+														(productToDelete as HTMLDialogElement).showModal();
+													}
+												}}
+											>
+												Delete
+											</button>
+											<dialog
+												id={`delete_modal_${product.id}`}
+												className="modal"
+											>
+												<div className="modal-box">
+													<form method="dialog">
+														<button
+															type="submit"
+															className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
+														>
+															✕
+														</button>
+													</form>
+													<h3 className="font-bold text-lg">
+														Do you really want to delete this product?
+													</h3>
+													<form
+														method="dialog"
+														onSubmit={() => handleDeleteSubmit(product.id)}
+													>
+														<div className="flex justify-end">
+															<button
+																type="submit"
+																className="btn btn-error mt-4"
+															>
+																Delete
+															</button>
+														</div>
+													</form>
+												</div>
+											</dialog>
+										</div>
+									)}
+									{!user.isAdmin && (
+										<button
+											type="button"
+											disabled={user.isAdmin}
+											className="btn btn-primary bg-secondary"
+											onClick={() => postItemToBasket(basketId, product.id)}
+										>
+											Buy
+										</button>
+									)}
 								</div>
 							</div>
 						</div>
