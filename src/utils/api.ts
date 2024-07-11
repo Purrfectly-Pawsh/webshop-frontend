@@ -16,6 +16,8 @@ import {
 	POSTReviewURL,
 	PUTUpdateBasketURL,
 	DELETEProductURL,
+	PUTProductURL,
+	GETProductURL,
 } from "./urls";
 
 function sendFetch<ResponseType>(
@@ -80,12 +82,34 @@ export const deleteItemFromBasket = async (
 	);
 };
 
+export async function getProduct(productId: string) {
+	return await sendFetch<Product>(
+		GETProductURL(productId),
+		"GET",
+		"",
+		`Failed to execute: 'get product ${productId}'`,
+		true,
+		undefined,
+	);
+}
+
 export async function postProduct(payload: Omit<Product, "id">, token: string) {
 	return await sendFetch<Product>(
 		POSTProductURL,
 		"POST",
 		token,
 		"Failed to execute: 'post new product'",
+		true,
+		payload,
+	);
+}
+
+export async function putProduct(payload: Product, token: string) {
+	return await sendFetch<Product>(
+		PUTProductURL,
+		"PUT",
+		token,
+		"Failed to execute: 'put new product'",
 		true,
 		payload,
 	);

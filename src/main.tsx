@@ -16,6 +16,7 @@ import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
 import ErrorPage from "./routes/ErrorPage";
 import OrdersPage from "./routes/OrdersPage";
+import EditProductPage, { EditProductPageLoader } from "./routes/EditProductPage";
 
 const router = createBrowserRouter([
 	{
@@ -34,6 +35,16 @@ const router = createBrowserRouter([
 				element: (
 					<RequireAdmin>
 						<CreateProductPage />
+					</RequireAdmin>
+				),
+				errorElement: <ErrorPage />,
+			},
+			{
+				path: "product/:id/edit",
+				loader: EditProductPageLoader,
+				element: (
+					<RequireAdmin>
+						<EditProductPage />
 					</RequireAdmin>
 				),
 				errorElement: <ErrorPage />,

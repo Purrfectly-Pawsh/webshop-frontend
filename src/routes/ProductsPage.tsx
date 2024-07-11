@@ -89,7 +89,14 @@ export default function ProductsPage() {
 								<div className="flex items-center justify-between w-full">
 									<h2 className="font-bold text-xl">{product.price} €</h2>
 									{user.isAdmin && (
-										<div>
+										<div className="flex gap-2">
+											<button
+												type="button"
+												className="btn bg-btnBlue"
+												onClick={() => navigate(`/product/${product.id}/edit`)}
+											>
+												Edit
+											</button>
 											<button
 												type="button"
 												className="btn btn-error"

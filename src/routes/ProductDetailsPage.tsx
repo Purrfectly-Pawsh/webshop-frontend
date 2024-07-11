@@ -1,4 +1,8 @@
-import { type LoaderFunctionArgs, useLoaderData, useNavigate } from "react-router-dom";
+import {
+	type LoaderFunctionArgs,
+	useLoaderData,
+	useNavigate,
+} from "react-router-dom";
 import type { Review as ReviewType, Product } from "../utils/types";
 import { GETProductURL, GETReviewsForProductURL } from "../utils/urls";
 import { useContext, useEffect, useState } from "react";
@@ -9,7 +13,10 @@ import { SessionContext } from "../context/SessionContext";
 export const ProductDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
-	const response = fetch(GETProductURL + params.id, {
+	if (params.id === undefined) {
+		throw new Error("");
+	}
+	const response = fetch(GETProductURL(params.id), {
 		method: "GET",
 		mode: "cors", // no-cors, *cors, same-origin
 		headers: {
@@ -129,7 +136,14 @@ export default function ProductDetailsPage() {
 								</div>
 							)}
 							{user.isAdmin && (
-								<div>
+								<div className="flex gap-2">
+									<button
+										type="button"
+										className="btn bg-btnBlue"
+										onClick={() => navigate("edit")}
+									>
+										Edit
+									</button>
 									<button
 										type="button"
 										className="btn btn-error"
