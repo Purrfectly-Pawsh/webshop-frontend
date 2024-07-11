@@ -41,9 +41,9 @@ function sendFetch<ResponseType>(
 		.then((response) => {
 			if (response.ok) {
 				if (responseHasBody) {
-					return response.json() as Promise<ResponseType>
+					return response.json() as Promise<ResponseType>;
 				}
-				return {} as Promise<ResponseType>
+				return {} as Promise<ResponseType>;
 			}
 			throw new Error("Network response was not 'ok'");
 		})
@@ -189,3 +189,34 @@ export const postCheckout = async (basket: Basket, id: string) => {
 			throw err;
 		});
 };
+
+export const updateBasket = (
+	guestId: string,
+	userId: string,
+	token: string,
+) => {
+	return sendFetch(
+		PUTUpdateBasketURL(guestId),
+		"PUT",
+		token,
+		`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
+		true,
+		{ userId: userId },
+	);
+};
+
+export async function deleteProduct(productId: string, token: string) {
+	const response = await sendFetch(
+		DELETEProductURL(productId),
+		"DELETE",
+		token,
+		"Failed to execute: 'delete product'",
+		false,
+		undefined,
+	);
+
+	if (response) {
+		return true;
+	}
+	return false;
+}

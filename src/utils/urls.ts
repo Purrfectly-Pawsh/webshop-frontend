@@ -26,5 +26,4 @@ export const PUTUpdateBasketURL = (guestBasketId: string) =>
 	`${baseURL}/baskets/${guestBasketId}`;
 export const POSTCheckoutURL = `http://localhost:8084/v1/checkout/create-checkout-session`;
 
-export const GETOrdersURL = (userId: string) =>
-	`${baseURL}/orders/${userId}`;
+export const GETOrdersURL = (userId: string) => `${baseURL}/orders/${userId}`;

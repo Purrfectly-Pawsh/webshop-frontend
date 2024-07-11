@@ -1,4 +1,8 @@
-import { type LoaderFunctionArgs, useLoaderData, useNavigate } from "react-router-dom";
+import {
+	type LoaderFunctionArgs,
+	useLoaderData,
+	useNavigate,
+} from "react-router-dom";
 import type { Review as ReviewType, Product } from "../utils/types";
 import { GETProductURL, GETReviewsForProductURL } from "../utils/urls";
 import { useContext, useEffect, useState } from "react";
@@ -133,11 +137,14 @@ export default function ProductDetailsPage() {
 									<button
 										type="button"
 										className="btn btn-error"
-										onClick={() =>
-											document
-												.getElementById(`delete_modal_${product.id}`)
-												.showModal()
-										}
+										onClick={() => {
+											const productToDelete = document.getElementById(
+												`delete_modal_${product.id}`,
+											);
+											if (productToDelete !== null) {
+												(productToDelete as HTMLDialogElement).showModal();
+											}
+										}}
 									>
 										Delete
 									</button>
