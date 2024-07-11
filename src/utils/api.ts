@@ -13,6 +13,7 @@ import {
 	GETBasketURL,
 	POSTProductToBasketURL,
 	POSTProductURL,
+	POSTCheckoutURL,
 	POSTReviewURL,
 	PUTUpdateBasketURL,
 	DELETEProductURL,
@@ -91,22 +92,6 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 	);
 }
 
-export async function deleteProduct(productId: string, token: string) {
-	const response = await sendFetch(
-		DELETEProductURL(productId),
-		"DELETE",
-		token,
-		"Failed to execute: 'delete product'",
-		false,
-		undefined,
-	);
-
-	if (response) {
-		return true;
-	}
-	return false;
-}
-
 export async function postReview(
 	productId: string,
 	payload: Omit<Review, "id">,
@@ -133,7 +118,7 @@ export async function getOrders(userId: string): Promise<Order[]> {
 	);
 
 	if (!response) {
-		response = []
+		response = [];
 	}
 
 	const parsedOrders: Order[] = [];
@@ -181,17 +166,26 @@ export const fetchBasket = (basketId: string) => {
 	);
 };
 
-export const updateBasket = (
-	guestId: string,
-	userId: string,
-	token: string,
-) => {
-	return sendFetch(
-		PUTUpdateBasketURL(guestId),
-		"PUT",
-		token,
-		`Updating BASKET WITH BASKET_ID ${guestId} to ${userId} failed\n`,
-		true,
-		{ userId: userId },
-	);
+export const postCheckout = async (basket: Basket, id: string) => {
+	return await fetch(POSTCheckoutURL, {
+		method: "POST",
+		mode: "cors",
+		headers: {
+			"Content-Type": "application/json",
+		},
+		body: JSON.stringify({ userId: id, ...basket }),
+	})
+		.then((res) => {
+			if (!res.ok) {
+				throw new Error("Network response was not ok!");
+			}
+			return res.json();
+		})
+		.then((data) => {
+			return data;
+		})
+		.catch((err) => {
+			console.error(err);
+			throw err;
+		});
 };

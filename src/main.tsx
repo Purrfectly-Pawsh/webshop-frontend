@@ -16,6 +16,8 @@ import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
 import ErrorPage from "./routes/ErrorPage";
 import OrdersPage from "./routes/OrdersPage";
+import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
+import PaymentFailedPage from "./routes/PaymentFailedPage";
 
 const router = createBrowserRouter([
 	{
@@ -53,6 +55,14 @@ const router = createBrowserRouter([
 				path: "orders",
 				errorElement: <ErrorPage />,
 				element: <OrdersPage />,
+			},
+			{
+				path: "/payment/success",
+				element: <SuccessfulPaymentPage />,
+			},
+			{
+				path: "/payment/failed",
+				element: <PaymentFailedPage />,
 			},
 			{
 				path: "*",

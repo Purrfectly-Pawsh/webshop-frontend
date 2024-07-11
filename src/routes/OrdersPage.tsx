@@ -9,7 +9,9 @@ export default function OrdersPage() {
 	const [orders, setOrders] = useState<Order[]>([]);
 
 	useEffect(() => {
-		getOrders(basketId).then((orders) => setOrders(orders));
+		getOrders(basketId).then((orders) => {
+			setOrders(orders)
+		});
 	}, [basketId]);
 
 	return (
@@ -61,7 +63,7 @@ export default function OrdersPage() {
 						</div>
 
 						{order.products.map((product) => (
-							<OrderItem key={product.id} product={product} />
+							<OrderItem key={product.productId} product={product} />
 						))}
 					</div>
 				</div>

@@ -19,10 +19,10 @@ export default function OrderItem({ product }: OrderItemProps) {
 			content: content,
 			rating: rating,
 			title: title,
-			date: "",
+			date: new Date().toISOString(),
 		};
 
-		postReview(product.id, review, user.token);
+		postReview(product.productId, review, user.token);
 
 		setTitle("");
 		setContent("");
@@ -47,9 +47,14 @@ export default function OrderItem({ product }: OrderItemProps) {
 				<button
 					type="button"
 					className="btn btn-primary"
-					onClick={() =>
-						document.getElementById(`review_modal_${product.id}`).showModal()
-					}
+					onClick={() => {
+						const review = document.getElementById(
+							`review_modal_${product.id}`,
+						);
+						if (review !== null) {
+							(review as HTMLDialogElement).showModal();
+						}
+					}}
 				>
 					Add Review
 				</button>
@@ -146,15 +151,14 @@ export default function OrderItem({ product }: OrderItemProps) {
 								</div>
 							</div>
 							<div className="flex justify-end">
-							<button
-								type="submit"
-								className="btn bg-btnBlue mt-4"
-								onSubmit={() => handleSubmit()}
-							>
-								Submit
-							</button>
+								<button
+									type="submit"
+									className="btn bg-btnBlue mt-4"
+									onSubmit={() => handleSubmit()}
+								>
+									Submit
+								</button>
 							</div>
-							
 						</form>
 					</div>
 				</dialog>
