@@ -17,6 +17,8 @@ import {
 	POSTReviewURL,
 	PUTUpdateBasketURL,
 	DELETEProductURL,
+	PUTProductURL,
+	GETProductURL,
 } from "./urls";
 
 function sendFetch<ResponseType>(
@@ -90,7 +92,29 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		true,
 		payload,
 	);
-}
+};
+
+export async function putProduct(payload: Product, token: string) {
+	return await sendFetch<Product>(
+		PUTProductURL,
+		"PUT",
+		token,
+		"Failed to execute: 'put new product'",
+		true,
+		payload,
+	);
+};
+
+export async function getProduct(productId: string) {
+	return await sendFetch<Product>(
+		GETProductURL(productId),
+		"GET",
+		"",
+		`Failed to execute: 'get product ${productId}'`,
+		true,
+		undefined,
+	);
+};
 
 export async function postReview(
 	productId: string,
@@ -105,7 +129,7 @@ export async function postReview(
 		true,
 		payload,
 	);
-}
+};
 
 export async function getOrders(userId: string): Promise<Order[]> {
 	let response = await sendFetch<UnparsedOrder[]>(

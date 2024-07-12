@@ -13,7 +13,10 @@ import { SessionContext } from "../context/SessionContext";
 export const ProductDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
-	const response = fetch(GETProductURL + params.id, {
+	if (params.id === undefined) {
+		throw new Error("It looks like that route doesn't exist.")
+	}
+	const response = fetch(GETProductURL(params.id), {
 		method: "GET",
 		mode: "cors", // no-cors, *cors, same-origin
 		headers: {
@@ -32,7 +35,7 @@ export const ProductDetailsPageLoader = async ({
 		})
 		.catch((error) => {
 			console.error(`Fetching [GET PRODUCT ${params.id}] failed:\n`, error);
-			return {};
+			throw new Error("Sadly, we don't have this product.")
 		});
 
 	return response;
@@ -110,30 +113,37 @@ export default function ProductDetailsPage() {
 							{!user.isAdmin && (
 								<div>
 									<button
-										type="button"
-										disabled={user.isAdmin}
-										className="btn bg-btnBlue"
-										onClick={() => postItemToBasket(basketId, product.id)}
-									>
-										<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
-										Add to basket
-									</button>
-									<button
-										type="button"
-										className="btn bg-btnBlue"
-										disabled={user.isAdmin}
-									>
-										<img
-											alt="Heart"
-											src="/heart-svgrepo-com.svg"
-											className="w-10 h-10"
-										/>
-										Remember
-									</button>
+												type="button"
+												disabled={user.isAdmin}
+												className="btn bg-btnBlue"
+												onClick={() => postItemToBasket(basketId, product.id)}
+											>
+												<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
+												Add to basket
+											</button>
+											<button
+												type="button"
+												className="btn bg-btnBlue"
+												disabled={user.isAdmin}
+											>
+												<img
+													alt="Heart"
+													src="/heart-svgrepo-com.svg"
+													className="w-10 h-10"
+												/>
+												Remember
+											</button>
 								</div>
 							)}
 							{user.isAdmin && (
-								<div>
+								<div className="flex gap-2">
+									<button
+										type="button"
+										className="btn bg-btnBlue"
+										onClick={() => navigate("edit")}
+									>
+										Edit
+									</button>
 									<button
 										type="button"
 										className="btn btn-error"

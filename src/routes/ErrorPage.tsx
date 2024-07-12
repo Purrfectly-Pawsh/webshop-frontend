@@ -9,7 +9,7 @@ const ErrorPage = () => {
 			: "An unknown error has occurred.";
 
 	return (
-		<div className="flex justify-center items-center h-screen">
+		<div className="flex justify-center items-center h-full">
 			<div className="bg-btnRed rounded-2xl border-4 border-gray-400 p-10 text-center w-fit">
 				<h1 className="text-xl py-4 font-bold">
 					Unfortunately something went wrong.
