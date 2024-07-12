@@ -4,7 +4,6 @@ import { useAuth } from "react-oidc-context";
 import { v4 as uuidv4 } from "uuid";
 import type { Basket, BasketItem } from "../utils/types";
 import { deleteItemFromBasket, fetchBasket, updateBasket } from "../utils/api";
-import { useToast } from "./ToastContext";
 
 interface SessionContextType {
 	basketId: string;
