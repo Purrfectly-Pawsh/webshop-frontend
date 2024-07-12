@@ -4,6 +4,7 @@ import { useAuth } from "react-oidc-context";
 import { v4 as uuidv4 } from "uuid";
 import type { Basket, BasketItem } from "../utils/types";
 import { deleteItemFromBasket, fetchBasket, updateBasket } from "../utils/api";
+import { useToast } from "./ToastContext";
 
 interface SessionContextType {
 	basketId: string;
@@ -84,7 +85,9 @@ export const SessionContextProvider = ({
 					isUser:
 						decoded.resource_access.purrfectly_pawsh.roles.includes("USER"),
 					token: auth.user.access_token,
-					name: auth.user.profile.preferred_username ? auth.user.profile.preferred_username : "Unknown",
+					name: auth.user.profile.preferred_username
+						? auth.user.profile.preferred_username
+						: "Unknown",
 				};
 				setUser(user);
 				if (basket.basketItems.length !== 0) {
