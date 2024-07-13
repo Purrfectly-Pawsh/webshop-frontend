@@ -1,20 +1,26 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import type { BasketItem } from "../utils/types";
 import { SessionContext } from "../context/SessionContext";
 import noImage from "../../public/no-image.svg";
 import { postCheckout } from "../utils/api";
 
-interface SessionResponse {
+export interface SessionResponse {
 	sessionUrl: string;
 }
 
 export default function BasketPage() {
 	const { basketId, basket, removeItemFromBasket, user } =
 		useContext(SessionContext);
+	const [loading, setLoading] = useState<boolean>(false);
 
 	const handleRedirect = async () => {
-		const response: SessionResponse = await postCheckout(basket, basketId);
-		window.location.href = response.sessionUrl;
+		setLoading(true);
+		try {
+			const response = await postCheckout(basket, basketId);
+			window.location.href = response.sessionUrl;
+		} finally {
+			setLoading(false);
+		}
 	};
 
 	return (
@@ -85,10 +91,14 @@ export default function BasketPage() {
 						<button
 							type="button"
 							onClick={handleRedirect}
-							className="btn bg-btnBlue text-2xl px-4"
-							disabled={user.isAdmin}
+							className="btn bg-btnBlue text-2xl px-4 disabled:bg-btnBlue disabled:pointer-events-none"
+							disabled={user.isAdmin || loading}
 						>
-							Checkout
+							{loading ? (
+								<span className="loading loading-spinner loading-lg text-black"></span>
+							) : (
+								"Checkout"
+							)}
 						</button>
 					</div>
 				</div>

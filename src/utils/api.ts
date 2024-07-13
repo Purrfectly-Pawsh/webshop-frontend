@@ -92,7 +92,7 @@ export async function postProduct(payload: Omit<Product, "id">, token: string) {
 		true,
 		payload,
 	);
-};
+}
 
 export async function putProduct(payload: Product, token: string) {
 	return await sendFetch<Product>(
@@ -103,7 +103,7 @@ export async function putProduct(payload: Product, token: string) {
 		true,
 		payload,
 	);
-};
+}
 
 export async function getProduct(productId: string) {
 	return await sendFetch<Product>(
@@ -114,7 +114,7 @@ export async function getProduct(productId: string) {
 		true,
 		undefined,
 	);
-};
+}
 
 export async function postReview(
 	productId: string,
@@ -129,7 +129,7 @@ export async function postReview(
 		true,
 		payload,
 	);
-};
+}
 
 export async function getOrders(userId: string): Promise<Order[]> {
 	let response = await sendFetch<UnparsedOrder[]>(
