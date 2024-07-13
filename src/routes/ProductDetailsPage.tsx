@@ -9,12 +9,13 @@ import { useContext, useEffect, useState } from "react";
 import Review from "../components/Review";
 import { deleteProduct, postItemToBasket } from "../utils/api";
 import { SessionContext } from "../context/SessionContext";
+import { useToast } from "../context/ToastContext";
 
 export const ProductDetailsPageLoader = async ({
 	params,
 }: LoaderFunctionArgs) => {
 	if (params.id === undefined) {
-		throw new Error("It looks like that route doesn't exist.")
+		throw new Error("It looks like that route doesn't exist.");
 	}
 	const response = fetch(GETProductURL(params.id), {
 		method: "GET",
@@ -35,7 +36,7 @@ export const ProductDetailsPageLoader = async ({
 		})
 		.catch((error) => {
 			console.error(`Fetching [GET PRODUCT ${params.id}] failed:\n`, error);
-			throw new Error("Sadly, we don't have this product.")
+			throw new Error("Sadly, we don't have this product.");
 		});
 
 	return response;
@@ -46,6 +47,7 @@ export default function ProductDetailsPage() {
 	const [reviews, setReviews] = useState<ReviewType[]>([]);
 	const { basketId, user } = useContext(SessionContext);
 	const navigate = useNavigate();
+	const { addToast } = useToast();
 
 	useEffect(() => {
 		const fetchReviews = async () =>
@@ -111,28 +113,34 @@ export default function ProductDetailsPage() {
 						</div>
 						<div className="flex flex-col my-10 space-y-4">
 							{!user.isAdmin && (
-								<div>
+								<div className="flex flex-col space-y-4">
 									<button
-												type="button"
-												disabled={user.isAdmin}
-												className="btn bg-btnBlue"
-												onClick={() => postItemToBasket(basketId, product.id)}
-											>
-												<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
-												Add to basket
-											</button>
-											<button
-												type="button"
-												className="btn bg-btnBlue"
-												disabled={user.isAdmin}
-											>
-												<img
-													alt="Heart"
-													src="/heart-svgrepo-com.svg"
-													className="w-10 h-10"
-												/>
-												Remember
-											</button>
+										type="button"
+										disabled={user.isAdmin}
+										className="btn bg-btnBlue items-center"
+										onClick={() => {
+											postItemToBasket(basketId, product.id);
+											addToast(
+												`${product.name} has been added to your basket.`,
+												"success",
+											);
+										}}
+									>
+										<img alt="Basket" src="/basket.svg" className="w-10 h-10" />
+										Add to basket
+									</button>
+									<button
+										type="button"
+										className="btn bg-btnBlue items-center"
+										disabled={user.isAdmin}
+									>
+										<img
+											alt="Heart"
+											src="/heart-svgrepo-com.svg"
+											className="w-10 h-10"
+										/>
+										Remember
+									</button>
 								</div>
 							)}
 							{user.isAdmin && (

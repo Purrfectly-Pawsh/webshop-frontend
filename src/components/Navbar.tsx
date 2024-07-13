@@ -52,12 +52,14 @@ export default function Navbar() {
 						<img aria-label="Profile Icon" src="/profile.svg" />
 					</button>
 					<ul className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52 gap-2">
-						{user.authenticated && (
+						{user.authenticated && !user.roles.includes("ADMIN") && (
 							<li>
-								<button type="button" className="flex flex-row items-center">
-									<img alt="Logout" src="/profile.svg" className="h-5" />
-									Profile
-								</button>
+								<a href="/orders">
+									<button type="button" className="flex flex-row items-center">
+										<img alt="Logout" src="/profile.svg" className="h-5" />
+										Profile
+									</button>
+								</a>
 							</li>
 						)}
 						<li>

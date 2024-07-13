@@ -1,14 +1,17 @@
 import { type FormEvent, useState, useContext } from "react";
-import { type LoaderFunctionArgs, useNavigate, useLoaderData } from "react-router-dom";
+import {
+	type LoaderFunctionArgs,
+	useNavigate,
+	useLoaderData,
+} from "react-router-dom";
 import { getProduct, putProduct } from "../utils/api";
 import { SessionContext } from "../context/SessionContext";
 import { Categories, type Product } from "../utils/types";
+import { useToast } from "../context/ToastContext";
 
-export const EditProductPageLoader = async ({
-	params,
-}: LoaderFunctionArgs) => {
+export const EditProductPageLoader = async ({ params }: LoaderFunctionArgs) => {
 	if (params.id === undefined) {
-		throw new Error("It looks like that route doesn't exist.")
+		throw new Error("It looks like that route doesn't exist.");
 	}
 	const response = await getProduct(params.id);
 	return response;
@@ -25,6 +28,8 @@ export default function EditProductPage() {
 	const [imageUrl, setImageUrl] = useState<string>(product.imageUrl);
 	const [category, setCategory] = useState<string>(product.category);
 	const [producer, setProducer] = useState<string>(product.producer);
+
+	const { addToast } = useToast();
 
 	async function handleSubmit(event: FormEvent) {
 		event.preventDefault();
@@ -130,12 +135,21 @@ export default function EditProductPage() {
 					</label>
 
 					<div className="flex flex-row justify-end gap-4 mt-4">
-						<button type="submit" className="btn">
+						<button
+							type="submit"
+							className="btn bg-btnBlue"
+							onClick={() =>
+								addToast(
+									`${product.name} has been updated successfully.`,
+									"success",
+								)
+							}
+						>
 							Save
 						</button>
 						<button
 							type="button"
-							className="btn"
+							className="btn bg-btnRed"
 							onClick={() => navigate("/products")}
 						>
 							Cancel

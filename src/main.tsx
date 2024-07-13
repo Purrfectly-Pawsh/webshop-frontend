@@ -16,9 +16,12 @@ import CreateProductPage from "./routes/CreateProductPage";
 import RequireAdmin from "./components/RequireAdmin";
 import ErrorPage from "./routes/ErrorPage";
 import OrdersPage from "./routes/OrdersPage";
-import EditProductPage, { EditProductPageLoader } from "./routes/EditProductPage";
+import EditProductPage, {
+	EditProductPageLoader,
+} from "./routes/EditProductPage";
 import SuccessfulPaymentPage from "./routes/SuccessfulPaymentPage";
 import PaymentFailedPage from "./routes/PaymentFailedPage";
+import { ToastProvider } from "./context/ToastContext";
 
 const router = createBrowserRouter([
 	{
@@ -98,14 +101,16 @@ const root: HTMLElement | null = document.getElementById("root");
 if (root !== null) {
 	ReactDOM.createRoot(root).render(
 		<React.StrictMode>
-			<AuthProvider
-				userManager={oidcConfig}
-				onSigninCallback={onSigninCallback}
-			>
-				<SessionContextProvider>
-					<RouterProvider router={router} />
-				</SessionContextProvider>
-			</AuthProvider>
+			<ToastProvider>
+				<AuthProvider
+					userManager={oidcConfig}
+					onSigninCallback={onSigninCallback}
+				>
+					<SessionContextProvider>
+						<RouterProvider router={router} />
+					</SessionContextProvider>
+				</AuthProvider>
+			</ToastProvider>
 		</React.StrictMode>,
 	);
 } else {

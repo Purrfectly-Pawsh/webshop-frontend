@@ -8,6 +8,7 @@ import { GETProductsByKeywordURL, GETProductsURL } from "../utils/urls";
 import { useContext } from "react";
 import { SessionContext } from "../context/SessionContext";
 import { deleteProduct, postItemToBasket } from "../utils/api";
+import { useToast } from "../context/ToastContext";
 
 export const ProductsPageLoader = async ({ request }: LoaderFunctionArgs) => {
 	const url: URL = new URL(request.url);
@@ -44,6 +45,7 @@ export default function ProductsPage() {
 	const products = useLoaderData() as Product[];
 	const { basketId, user } = useContext(SessionContext);
 	const navigate = useNavigate();
+	const { addToast } = useToast();
 
 	async function handleDeleteSubmit(productId: string) {
 		await deleteProduct(productId, user.token).then(() => {
@@ -90,13 +92,13 @@ export default function ProductsPage() {
 									<h2 className="font-bold text-xl">{product.price} €</h2>
 									{user.isAdmin && (
 										<div className="flex gap-2">
-										<button
-											type="button"
-											className="btn bg-btnBlue"
-											onClick={() => navigate(`/product/${product.id}/edit`)}
-										>
-											Edit
-										</button>
+											<button
+												type="button"
+												className="btn bg-btnBlue"
+												onClick={() => navigate(`/product/${product.id}/edit`)}
+											>
+												Edit
+											</button>
 											<button
 												type="button"
 												className="btn btn-error"
@@ -129,7 +131,13 @@ export default function ProductsPage() {
 													</h3>
 													<form
 														method="dialog"
-														onSubmit={() => handleDeleteSubmit(product.id)}
+														onSubmit={() => {
+															handleDeleteSubmit(product.id);
+															addToast(
+																`${product.name} has been deleted.`,
+																"info",
+															);
+														}}
 													>
 														<div className="flex justify-end">
 															<button
@@ -149,7 +157,13 @@ export default function ProductsPage() {
 											type="button"
 											disabled={user.isAdmin}
 											className="btn btn-primary bg-secondary"
-											onClick={() => postItemToBasket(basketId, product.id)}
+											onClick={() => {
+												postItemToBasket(basketId, product.id);
+												addToast(
+													`${product.name} has been added to your basket.`,
+													"success",
+												);
+											}}
 										>
 											Buy
 										</button>

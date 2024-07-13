@@ -2,6 +2,7 @@ import { Navigate, Outlet, useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import CategoryMenu from "../components/CategoryMenu";
 import Footer from "../components/Footer";
+import ToastList from "../components/ToastList";
 
 export default function RootPage() {
 	const location = useLocation();
@@ -17,6 +18,7 @@ export default function RootPage() {
 			<div className="overflow-y-auto flex-grow">
 				<Outlet />
 			</div>
+			<ToastList />
 			<Footer />
 		</div>
 	);
